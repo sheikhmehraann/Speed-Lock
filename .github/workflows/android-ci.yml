@@ -52,8 +52,10 @@ jobs:
           javac -d speedlock-app/build/classes $SOURCES $TESTS
           java -cp speedlock-app/build/classes io.speedlock.app.SpeedLockTestRunner
 
-      - name: Set up Android SDK
-        uses: android-actions/setup-android@v3
+      - name: Verify Android SDK Environment
+        run: |
+          echo "ANDROID_HOME: $ANDROID_HOME"
+          ls -la $ANDROID_HOME/platforms
 
       - name: Cache Gradle Packages
         uses: gradle/actions/setup-gradle@v4
