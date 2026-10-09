@@ -5,12 +5,12 @@
     <color name="accent">#38BDF8</color>
     <color name="accent_blue">#3B82F6</color>
 
-    <!-- Surfaces & Backgrounds -->
-    <color name="window_background">#0F1115</color>
-    <color name="surface_dark">#181B20</color>
-    <color name="surface_card">#20242C</color>
-    <color name="surface_card_stroke">#2D323E</color>
-    <color name="surface_card_hover">#282D37</color>
+    <!-- Surfaces & Backgrounds (GhostLock High-Fidelity OLED Dark Palette) -->
+    <color name="window_background">#070A11</color>
+    <color name="surface_dark">#0E1420</color>
+    <color name="surface_card">#131926</color>
+    <color name="surface_card_stroke">#1F293D</color>
+    <color name="surface_card_hover">#1A2234</color>
 
     <!-- Light Theme Fallbacks -->
     <color name="window_background_light">#F3F4F6</color>
@@ -18,22 +18,30 @@
     <color name="surface_card_light">#FFFFFF</color>
     <color name="surface_card_stroke_light">#E5E7EB</color>
 
-    <!-- Status Banners & Chips (GhostLock Inspiration) -->
-    <color name="status_success_container">#143522</color>
-    <color name="status_success_stroke">#22543D</color>
+    <!-- GhostLock Signature Status Containers -->
+    <color name="status_success_container">#1A3825</color>
+    <color name="status_success_stroke">#275538</color>
     <color name="status_success_text">#4ADE80</color>
 
-    <color name="status_warning_container">#382A13</color>
-    <color name="status_warning_stroke">#5F431A</color>
+    <color name="status_warning_container">#3E2F1B</color>
+    <color name="status_warning_stroke">#5C4425</color>
     <color name="status_warning_text">#FBBF24</color>
 
-    <color name="status_danger_container">#3A1A1A</color>
-    <color name="status_danger_stroke">#5E2727</color>
+    <color name="status_danger_container">#2C1417</color>
+    <color name="status_danger_stroke">#4C2328</color>
     <color name="status_danger_text">#F87171</color>
 
-    <color name="status_info_container">#1E293B</color>
-    <color name="status_info_stroke">#334155</color>
+    <color name="status_info_container">#121D30</color>
+    <color name="status_info_stroke">#21324F</color>
     <color name="status_info_text">#38BDF8</color>
+
+    <!-- GhostLock Monospace Terminal Log Colors -->
+    <color name="terminal_bg">#0B1220</color>
+    <color name="terminal_error">#FF6B6B</color>
+    <color name="terminal_success">#5FD68A</color>
+    <color name="terminal_warning">#FFC94D</color>
+    <color name="terminal_info">#60A5FA</color>
+    <color name="terminal_text">#D1D5DB</color>
 
     <!-- Typography -->
     <color name="text_primary">#F9FAFB</color>
@@ -42,15 +50,15 @@
     <color name="text_inverted">#111827</color>
 
     <!-- Bottom Navigation -->
-    <color name="nav_bar_background">#121418</color>
-    <color name="nav_indicator">#1E293B</color>
+    <color name="nav_bar_background">#090D15</color>
+    <color name="nav_indicator">#162136</color>
     <color name="nav_item_selected">#38BDF8</color>
-    <color name="nav_item_unselected">#6B7280</color>
+    <color name="nav_item_unselected">#64748B</color>
 
     <!-- Legacy Aliases for backwards compatibility -->
-    <color name="background">#0F1115</color>
-    <color name="surface">#181B20</color>
-    <color name="primary_dark">#0F1115</color>
+    <color name="background">#070A11</color>
+    <color name="surface">#0E1420</color>
+    <color name="primary_dark">#070A11</color>
     <color name="status_compatible">#4ADE80</color>
     <color name="status_blocked">#F87171</color>
     <color name="status_untested">#FBBF24</color>

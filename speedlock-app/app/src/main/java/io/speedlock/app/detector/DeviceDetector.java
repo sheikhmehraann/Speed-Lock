@@ -22,10 +22,27 @@ public class DeviceDetector {
         // 1. Read Android OS Build properties via reflection (SELinux safe)
         populateAndroidBuildProperties(profile);
 
-        // 2. Read /proc/version
+        // 2. Read kernel version from /proc/version, System.getProperty("os.version"), or Os.uname()
         String procVersion = readFirstLine("/proc/version");
         if (!procVersion.isEmpty()) {
             parseKernelVersion(procVersion, profile);
+        }
+        if (profile.getKernelRelease().isEmpty()) {
+            String osVersion = System.getProperty("os.version", "");
+            if (!osVersion.isEmpty()) {
+                parseKernelVersion(osVersion, profile);
+            }
+        }
+        if (profile.getKernelRelease().isEmpty()) {
+            try {
+                Class<?> osClass = Class.forName("android.system.Os");
+                Object uts = osClass.getMethod("uname").invoke(null);
+                java.lang.reflect.Field releaseField = uts.getClass().getField("release");
+                String release = (String) releaseField.get(uts);
+                if (release != null && !release.isEmpty()) {
+                    parseKernelVersion(release, profile);
+                }
+            } catch (Throwable ignored) {}
         }
 
         // 3. Read live system properties via getprop as fallback
@@ -109,13 +126,16 @@ public class DeviceDetector {
     }
 
     private static void parseKernelVersion(String versionString, DeviceProfile profile) {
-        Matcher m = Pattern.compile("Linux version ([0-9]+\\.[0-9]+\\.[0-9]+[^\\s]*)").matcher(versionString);
+        if (versionString == null || versionString.isEmpty()) return;
+        Matcher m = Pattern.compile("(?:Linux version )?([0-9]+\\.[0-9]+\\.[0-9]+[^\\s]*)").matcher(versionString);
         if (m.find()) {
             profile.setKernelRelease(m.group(1));
             Matcher mKmi = Pattern.compile("android\\d+-\\d+").matcher(profile.getKernelRelease());
             if (mKmi.find()) {
                 profile.setKmiGeneration(mKmi.group(0));
             }
+        } else if (versionString.contains(".")) {
+            profile.setKernelRelease(versionString.trim());
         }
     }
 

@@ -82,82 +82,111 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-                <!-- GhostLock-style Activation Status Card -->
-                <LinearLayout
+                <!-- GhostLock-style Activation Status Card with Watermark Icon -->
+                <RelativeLayout
                     android:id="@+id/card_activation_status"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
                     android:background="@drawable/bg_status_banner_success"
                     android:padding="16dp"
-                    android:layout_marginBottom="16dp">
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:foreground="?attr/selectableItemBackground"
+                    android:layout_marginBottom="12dp">
 
+                    <!-- GhostLock Bottom-Right Watermark Icon -->
+                    <ImageView
+                        android:id="@+id/iv_home_status_watermark"
+                        android:layout_width="110dp"
+                        android:layout_height="110dp"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentBottom="true"
+                        android:layout_marginEnd="-16dp"
+                        android:layout_marginBottom="-16dp"
+                        android:src="@drawable/ic_status_check"
+                        android:alpha="0.14"
+                        app:tint="@color/status_success_text" />
+
+                    <!-- Status Content Column -->
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:gravity="center_vertical"
-                        android:layout_marginBottom="8dp">
+                        android:orientation="vertical"
+                        android:paddingEnd="64dp">
 
-                        <ImageView
-                            android:layout_width="24dp"
-                            android:layout_height="24dp"
-                            android:src="@drawable/ic_nav_audit"
-                            app:tint="@color/status_success_text"
-                            android:layout_marginEnd="8dp" />
-
-                        <TextView
-                            android:id="@+id/tv_home_status_badge"
+                        <LinearLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="METADATA_COMPATIBLE"
-                            android:textColor="@color/status_success_text"
+                            android:orientation="horizontal"
+                            android:gravity="center_vertical"
+                            android:layout_marginBottom="8dp">
+
+                            <ImageView
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                android:src="@drawable/ic_nav_audit"
+                                app:tint="@color/status_success_text"
+                                android:layout_marginEnd="8dp" />
+
+                            <TextView
+                                android:id="@+id/tv_home_status_badge"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="METADATA_COMPATIBLE"
+                                android:textColor="@color/status_success_text"
+                                android:textSize="12sp"
+                                android:textStyle="bold"
+                                android:background="@drawable/bg_chip_badge"
+                                android:paddingStart="8dp"
+                                android:paddingEnd="8dp"
+                                android:paddingTop="2dp"
+                                android:paddingBottom="2dp" />
+                        </LinearLayout>
+
+                        <TextView
+                            android:id="@+id/tv_home_device_title"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Infinix GT 20 Pro (X6871)"
+                            android:textColor="@color/text_primary"
+                            android:textSize="22sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/tv_home_kernel_title"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Kernel: 5.10.237-android12-9-00014-gf82f7360927e"
+                            android:textColor="@color/text_secondary"
+                            android:textSize="13sp"
+                            android:layout_marginTop="4dp" />
+
+                        <TextView
+                            android:id="@+id/tv_home_root_state"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Operational Root: NOT OBTAINED (Tap for Details)"
+                            android:textColor="@color/status_warning_text"
                             android:textSize="12sp"
                             android:textStyle="bold"
-                            android:background="@drawable/bg_chip_badge"
-                            android:paddingStart="8dp"
-                            android:paddingEnd="8dp"
-                            android:paddingTop="2dp"
-                            android:paddingBottom="2dp" />
+                            android:layout_marginTop="8dp" />
                     </LinearLayout>
+                </RelativeLayout>
 
-                    <TextView
-                        android:id="@+id/tv_home_device_title"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Infinix GT 20 Pro (X6871)"
-                        android:textColor="@color/text_primary"
-                        android:textSize="20sp"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:id="@+id/tv_home_kernel_title"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Kernel: 5.10.237-android12-9-00014-gf82f7360927e"
-                        android:textColor="@color/text_secondary"
-                        android:textSize="13sp"
-                        android:layout_marginTop="4dp" />
-
-                    <TextView
-                        android:id="@+id/tv_home_root_state"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Operational Root: NOT OBTAINED (Unprivileged Audit Mode)"
-                        android:textColor="@color/status_warning_text"
-                        android:textSize="12sp"
-                        android:textStyle="bold"
-                        android:layout_marginTop="8dp" />
-
-                    <com.google.android.material.button.MaterialButton
-                        android:id="@+id/btn_home_run_audit"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="@string/btn_run_audit"
-                        android:layout_marginTop="12dp"
-                        app:cornerRadius="8dp"
-                        app:backgroundTint="@color/primary" />
-                </LinearLayout>
+                <!-- GhostLock-style Action Run / Audit Button -->
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_home_run_audit"
+                    android:layout_width="match_parent"
+                    android:layout_height="52dp"
+                    android:text="Run Full Compatibility Audit"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    android:layout_marginBottom="16dp"
+                    app:icon="@drawable/ic_nav_audit"
+                    app:iconGravity="textStart"
+                    app:iconPadding="8dp"
+                    app:cornerRadius="12dp"
+                    app:backgroundTint="@color/primary" />
 
                 <!-- Hardware & Platform Summary Card -->
                 <LinearLayout
@@ -1030,12 +1059,12 @@
             </LinearLayout>
 
             <!-- Monospace Log Container -->
-            <ScrollView
+                <ScrollView
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
-                android:background="@drawable/bg_rounded_card"
-                android:padding="12dp"
+                android:background="@drawable/bg_terminal_container"
+                android:padding="14dp"
                 android:layout_marginBottom="12dp">
 
                 <TextView
@@ -1043,8 +1072,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:typeface="monospace"
-                    android:textSize="11sp"
-                    android:textColor="@color/text_primary"
+                    android:textSize="11.5sp"
+                    android:lineSpacingExtra="3dp"
+                    android:textColor="@color/terminal_text"
                     android:text="Speed Lock Diagnostic Engine Initialized.\nReady." />
             </ScrollView>
 
@@ -1209,7 +1239,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Speed Lock v1.0.3 (Build 3)"
+                        android:text="Speed Lock v1.0.4 (Build 4)"
                         android:textColor="@color/text_primary"
                         android:textSize="14sp"
                         android:textStyle="bold"

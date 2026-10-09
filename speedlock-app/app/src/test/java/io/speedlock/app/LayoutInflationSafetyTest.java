@@ -69,6 +69,7 @@ public class LayoutInflationSafetyTest {
             "toolbar", "btn_action_refresh", "btn_action_settings",
             "bottom_navigation", "screens_container",
             "screen_home", "screen_backends", "screen_device", "screen_audit", "screen_logs", "screen_settings",
+            "card_activation_status", "iv_home_status_watermark",
             "tv_home_status_badge", "tv_home_device_title", "tv_home_kernel_title", "tv_home_root_state",
             "tv_home_soc_name", "tv_home_bsp_platform", "tv_home_arch_info", "tv_home_data_source",
             "tv_home_dfroot_summary", "tv_home_ghostlock_summary",
@@ -96,7 +97,8 @@ public class LayoutInflationSafetyTest {
             "ic_nav_home.xml", "ic_nav_backends.xml", "ic_nav_device.xml",
             "ic_nav_audit.xml", "ic_nav_logs.xml", "ic_nav_settings.xml",
             "ic_refresh.xml", "bg_rounded_card.xml", "bg_chip_badge.xml",
-            "bg_status_banner_success.xml", "bg_status_banner_warning.xml", "bg_status_banner_danger.xml"
+            "bg_status_banner_success.xml", "bg_status_banner_warning.xml", "bg_status_banner_danger.xml",
+            "bg_terminal_container.xml", "ic_chevron_right.xml", "ic_status_alert.xml", "ic_status_check.xml"
         );
 
         for (String d : drawables) {

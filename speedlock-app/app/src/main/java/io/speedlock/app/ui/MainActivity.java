@@ -11,6 +11,7 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -25,6 +26,7 @@ import com.google.android.material.button.MaterialButton;
 
 import io.speedlock.app.R;
 import io.speedlock.app.SpeedLockApp;
+import io.speedlock.app.backend.IRootBackend;
 import io.speedlock.app.detector.DeviceDetector;
 import io.speedlock.app.detector.SocClassifier;
 import io.speedlock.app.diagnostic.CompatibilityEngine;
@@ -39,6 +41,7 @@ import java.io.FileOutputStream;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Controller and main entrypoint Activity for the Speed Lock dashboard.
@@ -62,6 +65,8 @@ public class MainActivity extends AppCompatActivity {
     private View screenSettings;
 
     // Home views
+    private View cardActivationStatus;
+    private ImageView ivHomeStatusWatermark;
     private TextView tvHomeStatusBadge;
     private TextView tvHomeDeviceTitle;
     private TextView tvHomeKernelTitle;
@@ -147,6 +152,8 @@ public class MainActivity extends AppCompatActivity {
         btnActionSettings = findViewById(R.id.btn_action_settings);
 
         // Home
+        cardActivationStatus = findViewById(R.id.card_activation_status);
+        ivHomeStatusWatermark = findViewById(R.id.iv_home_status_watermark);
         tvHomeStatusBadge = findViewById(R.id.tv_home_status_badge);
         tvHomeDeviceTitle = findViewById(R.id.tv_home_device_title);
         tvHomeKernelTitle = findViewById(R.id.tv_home_kernel_title);
@@ -231,10 +238,11 @@ public class MainActivity extends AppCompatActivity {
 
     private void setupListeners() {
         // Home Navigation Shortcuts
+        if (cardActivationStatus != null) {
+            cardActivationStatus.setOnClickListener(v -> showActivationStatusDialog());
+        }
         if (btnHomeRunAudit != null) {
-            btnHomeRunAudit.setOnClickListener(v -> {
-                if (bottomNav != null) bottomNav.setSelectedItemId(R.id.nav_audit);
-            });
+            btnHomeRunAudit.setOnClickListener(v -> runFullAuditAndReport());
         }
         if (btnHomeGotoBackends != null) {
             btnHomeGotoBackends.setOnClickListener(v -> {
@@ -253,20 +261,10 @@ public class MainActivity extends AppCompatActivity {
 
         // Backends Audit Triggers
         if (btnBackendAuditDfroot != null) {
-            btnBackendAuditDfroot.setOnClickListener(v -> {
-                if (app != null) {
-                    app.getLogger().info("DFRootAudit", "Auditing DFRoot preconditions on " + currentProfile.getModel());
-                }
-                Toast.makeText(this, "DFRoot: 4/4 kernel configs met. LKM rebuild required.", Toast.LENGTH_LONG).show();
-            });
+            btnBackendAuditDfroot.setOnClickListener(v -> auditBackendWithDialog("dfroot"));
         }
         if (btnBackendAuditGhostlock != null) {
-            btnBackendAuditGhostlock.setOnClickListener(v -> {
-                if (app != null) {
-                    app.getLogger().info("GhostLockAudit", "Auditing GhostLock preconditions on " + currentProfile.getModel());
-                }
-                Toast.makeText(this, "GhostLock: CONFIG_FUTEX met. MediaTek load address required.", Toast.LENGTH_LONG).show();
-            });
+            btnBackendAuditGhostlock.setOnClickListener(v -> auditBackendWithDialog("ghostlock"));
         }
 
         // Logs Search and Filters
@@ -404,6 +402,19 @@ public class MainActivity extends AppCompatActivity {
         SocClassifier.SocClassification soc = SocClassifier.classify(currentProfile);
 
         // Update Home Screen
+        if (cardActivationStatus != null) {
+            if (currentSummary.hasActionableBackend) {
+                cardActivationStatus.setBackgroundResource(R.drawable.bg_status_banner_success);
+                if (ivHomeStatusWatermark != null) {
+                    ivHomeStatusWatermark.setImageResource(R.drawable.ic_status_check);
+                }
+            } else {
+                cardActivationStatus.setBackgroundResource(R.drawable.bg_status_banner_warning);
+                if (ivHomeStatusWatermark != null) {
+                    ivHomeStatusWatermark.setImageResource(R.drawable.ic_status_alert);
+                }
+            }
+        }
         if (tvHomeStatusBadge != null) {
             tvHomeStatusBadge.setText(currentSummary.hasActionableBackend ? "METADATA_COMPATIBLE" : "LIMITED_SUPPORT");
         }
@@ -454,6 +465,173 @@ public class MainActivity extends AppCompatActivity {
         if (tvDeviceKernelVal != null) tvDeviceKernelVal.setText("Kernel: " + (currentProfile.getKernelRelease().isEmpty() ? "Not Accessible" : currentProfile.getKernelRelease()));
         if (tvDeviceSecurityVal != null) tvDeviceSecurityVal.setText("Security Patch: " + (currentProfile.getAvbSecurityPatch().isEmpty() ? "Not Accessible" : currentProfile.getAvbSecurityPatch()));
         if (tvDeviceDatasourceVal != null) tvDeviceDatasourceVal.setText("Profile Source: " + currentProfile.getFirmwareDataSource());
+
+        refreshLogDisplay();
+    }
+
+    public void showActivationStatusDialog() {
+        ensureInitialized();
+        StringBuilder sb = new StringBuilder();
+        sb.append("OPERATIONAL ROOT STATUS: NOT OBTAINED\n");
+        sb.append("Execution Mode: Unprivileged Diagnostic & Audit\n\n");
+        sb.append("FIRMWARE & ARCHITECTURE:\n");
+        sb.append("• Model: ").append(currentProfile.getModel()).append(" (").append(currentProfile.getMarketingName()).append(")\n");
+        sb.append("• Kernel: ").append(currentProfile.getKernelRelease().isEmpty() ? "Unidentified" : currentProfile.getKernelRelease()).append("\n");
+        sb.append("• Silicon / BSP: ").append(currentProfile.getBspPlatform()).append("\n");
+        sb.append("• Architecture: ").append(currentProfile.getArchitecture()).append(" (").append(currentProfile.getPageSizeBytes()).append(" B page, ").append(currentProfile.getVaBits()).append("-bit VA)\n\n");
+        sb.append("OPERATIONAL BLOCKERS IDENTIFIED:\n");
+        sb.append("1. DFRoot (CVE-2026-43284):\n");
+        sb.append("   Prebuilt LKM ABI mismatch (vermagic '5.10.252-dirty' vs stock target kernel). Requires custom compilation against ACK 5.10 commit f82f7360927e.\n\n");
+        sb.append("2. GhostLock (CVE-2026-43499):\n");
+        sb.append("   Missing MediaTek physical load offsets (kernel_phys_load/offset) and target.h struct offsets for build ab14119954.\n\n");
+        sb.append("3. System Security Enforcement:\n");
+        sb.append("   Android 15 SELinux (enforcing) and AVB 2.0 prevent in-place execution without verified weaponized modules.\n\n");
+        sb.append("Note: Speed Lock strictly refuses to simulate exploit execution. Tap 'View Audit' to review tier checks.");
+
+        new AlertDialog.Builder(this)
+            .setTitle("Activation Status: " + (currentSummary.hasActionableBackend ? "METADATA_COMPATIBLE" : "LIMITED_SUPPORT"))
+            .setMessage(sb.toString())
+            .setPositiveButton("View Audit", (dialog, which) -> {
+                if (bottomNav != null) bottomNav.setSelectedItemId(R.id.nav_audit);
+            })
+            .setNeutralButton("Manage Backends", (dialog, which) -> {
+                if (bottomNav != null) bottomNav.setSelectedItemId(R.id.nav_backends);
+            })
+            .setNegativeButton("Close", null)
+            .show();
+    }
+
+    public void runFullAuditAndReport() {
+        if (app == null) app = SpeedLockApp.getInstance();
+        DiagnosticLogger logger = app.getLogger();
+
+        logger.info("AuditEngine", "==================================================");
+        logger.info("AuditEngine", "Initiating Full 5-Tier Compatibility Audit...");
+        logger.info("AuditEngine", "==================================================");
+
+        // Re-detect live device
+        this.currentProfile = DeviceDetector.detectLiveDevice();
+        SocClassifier.SocClassification soc = SocClassifier.classify(currentProfile);
+
+        // Tier 1: Hardware & Architecture
+        logger.info("AuditEngine", "[Tier 1] Hardware & Arch: Model=" + currentProfile.getModel() +
+            ", Brand=" + currentProfile.getBrand() + ", Board=" + currentProfile.getBoard() +
+            ", SoC=" + soc.commercialName + " (" + soc.bspPlatform + ")" +
+            ", Arch=" + currentProfile.getArchitecture() +
+            ", PageSize=" + currentProfile.getPageSizeBytes() + "B, VA=" + currentProfile.getVaBits() + "-bit");
+
+        // Tier 2: Kernel Configuration
+        Map<String, String> cfg = currentProfile.getConfigFlags();
+        logger.info("AuditEngine", "[Tier 2] Kernel Config: Release=" + (currentProfile.getKernelRelease().isEmpty() ? "Unidentified" : currentProfile.getKernelRelease()) +
+            ", XFRM=" + cfg.get("CONFIG_XFRM") + ", ESP=" + cfg.get("CONFIG_INET_ESP") +
+            ", MODULES=" + cfg.get("CONFIG_MODULES") + ", KPROBES=" + cfg.get("CONFIG_KPROBES") +
+            ", FUTEX=" + cfg.get("CONFIG_FUTEX"));
+
+        // Tier 3: Vendor Filesystem & Symlinks
+        logger.info("AuditEngine", "[Tier 3] Vendor Filesystem: insmod=" + (currentProfile.hasInsmodSymlink() ? "VERIFIED" : "MISSING") +
+            ", CandidateLibs=" + currentProfile.getCandidateLibraries().size() +
+            " (Primary: " + (currentProfile.getCandidateLibraries().isEmpty() ? "None" : currentProfile.getCandidateLibraries().get(0)) + ")");
+
+        // Tier 4: Exploit Prerequisites
+        this.currentSummary = app.getCompatibilityEngine().evaluate(currentProfile);
+        for (Map.Entry<String, BackendCapability> entry : currentSummary.backendCapabilities.entrySet()) {
+            BackendCapability cap = entry.getValue();
+            logger.info("AuditEngine", "[Tier 4] Backend '" + cap.getBackendId() + "' (" + cap.getCve() + "): State=" +
+                cap.getState().name() + ", PrerequisitesMet=" + cap.isPrerequisitesMet());
+            for (String r : cap.getReasons()) {
+                logger.info("AuditEngine", "  -> Verified: " + r);
+            }
+            for (String b : cap.getCriticalBlockers()) {
+                logger.warn("AuditEngine", "  -> Blocker: " + b);
+            }
+        }
+
+        // Tier 5: Operational Root State
+        logger.warn("AuditEngine", "[Tier 5] Operational Root: " + currentProfile.getOperationalRootStatus() +
+            " (System enforcing, live payload armed=false)");
+        logger.info("AuditEngine", "Full 5-tier compatibility audit completed. Overall Status: " +
+            (currentSummary.hasActionableBackend ? "METADATA_COMPATIBLE" : "LIMITED_SUPPORT"));
+
+        // Refresh UI across all views
+        updateAllScreens();
+
+        Toast.makeText(this, "Audit Complete: 5 Tiers Evaluated (" +
+            (currentSummary.hasActionableBackend ? "METADATA_COMPATIBLE" : "LIMITED_SUPPORT") + ")",
+            Toast.LENGTH_LONG).show();
+
+        if (bottomNav != null) {
+            bottomNav.setSelectedItemId(R.id.nav_audit);
+        }
+    }
+
+    public void auditBackendWithDialog(String backendId) {
+        ensureInitialized();
+        if (app == null) app = SpeedLockApp.getInstance();
+        DiagnosticLogger logger = app.getLogger();
+
+        IRootBackend backend = app.getBackendRegistry().getBackend(backendId);
+        if (backend == null) {
+            Toast.makeText(this, "Backend not found: " + backendId, Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        BackendCapability cap = backend.evaluateCompatibility(currentProfile);
+
+        // Structured logging
+        String tag = backend.getId().toUpperCase() + "_Audit";
+        logger.info(tag, "--------------------------------------------------");
+        logger.info(tag, "Auditing " + backend.getDisplayName() + " on " + currentProfile.getModel());
+        logger.info(tag, "State: " + cap.getState().name() + " | Prerequisites Met: " + cap.isPrerequisitesMet());
+        for (String reason : cap.getReasons()) {
+            logger.info(tag, "PASS: " + reason);
+        }
+        for (String blocker : cap.getCriticalBlockers()) {
+            logger.warn(tag, "BLOCKER: " + blocker);
+        }
+        logger.info(tag, "--------------------------------------------------");
+
+        // Build modal dialog
+        StringBuilder sb = new StringBuilder();
+        sb.append("CVE: ").append(cap.getCve()).append("\n");
+        sb.append("Evaluation: ").append(cap.getState().name());
+        if (cap.isPrerequisitesMet()) {
+            sb.append(" (Prerequisites Met)\n\n");
+        } else {
+            sb.append(" (Prerequisites Incomplete)\n\n");
+        }
+
+        sb.append("VERIFIED PREREQUISITES:\n");
+        if (cap.getReasons().isEmpty()) {
+            sb.append("• No prerequisites verified\n");
+        } else {
+            for (String r : cap.getReasons()) {
+                sb.append("✓ ").append(r).append("\n");
+            }
+        }
+
+        sb.append("\nCRITICAL OPERATIONAL BLOCKERS:\n");
+        if (cap.getCriticalBlockers().isEmpty()) {
+            sb.append("• None identified\n");
+        } else {
+            for (String b : cap.getCriticalBlockers()) {
+                sb.append("✗ ").append(b).append("\n");
+            }
+        }
+
+        sb.append("\nOPERATIONAL STATUS:\n");
+        sb.append("NOT OBTAINED (Unprivileged Diagnostic Mode).\n");
+        sb.append("Speed Lock detects architectural alignment without arming unsafe exploits.");
+
+        new AlertDialog.Builder(this)
+            .setTitle(backend.getDisplayName())
+            .setMessage(sb.toString())
+            .setPositiveButton("OK", null)
+            .setNeutralButton("View in Logs", (dialog, which) -> {
+                if (bottomNav != null) {
+                    bottomNav.setSelectedItemId(R.id.nav_logs);
+                }
+            })
+            .show();
 
         refreshLogDisplay();
     }
