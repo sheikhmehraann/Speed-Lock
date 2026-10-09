@@ -52,7 +52,8 @@ public class SpeedLockTestRunner {
             GhostLockBackendTest.class,
             CompatibilityEngineTest.class,
             ReportExporterTest.class,
-            FirmwareInspectionIntegrationTest.class
+            FirmwareInspectionIntegrationTest.class,
+            OperationalRootIntegrityTest.class
         );
 
         int totalTests = 0;

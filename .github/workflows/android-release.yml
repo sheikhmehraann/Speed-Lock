@@ -7,9 +7,9 @@ on:
   workflow_dispatch:
     inputs:
       tag_name:
-        description: 'Release Tag (e.g. v1.0.0)'
+        description: 'Release Tag (e.g. v1.0.1)'
         required: false
-        default: 'v1.0.0'
+        default: 'v1.0.1'
 
 permissions:
   contents: write
@@ -50,7 +50,7 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
 
-      - name: Compile and Run Java Unit Testbench (18 Tests)
+      - name: Compile and Run Java Unit Testbench (22 Tests)
         run: |
           echo "Running Java testbench verification..."
           mkdir -p speedlock-app/build/classes
@@ -82,65 +82,97 @@ jobs:
             echo "KEY_PASSWORD=${{ secrets.KEY_PASSWORD }}" >> $GITHUB_ENV
             echo "signed=true" >> $GITHUB_OUTPUT
           else
-            echo "No signing secret configured. Proceeding with unsigned release build."
+            echo "No signing secret configured. Proceeding with dual build: unsigned release + signed debug."
             echo "signed=false" >> $GITHUB_OUTPUT
           fi
 
-      - name: Assemble Release APK
+      - name: Assemble Release and Debug APKs
         run: |
           cd speedlock-app
           ./gradlew assembleRelease --no-daemon --stacktrace
+          ./gradlew assembleDebug --no-daemon --stacktrace
 
-      - name: Package & Name Release Artifact
+      - name: Package, Verify Signatures & Checksums
+        id: package
         run: |
-          OUTPUT_DIR="speedlock-app/app/build/outputs/apk/release"
           TAG="${{ steps.release_version.outputs.tag }}"
-          TARGET_APK="SpeedLock-${TAG}-x6871.apk"
-          
-          if [ -f "$OUTPUT_DIR/app-release.apk" ]; then
-            cp "$OUTPUT_DIR/app-release.apk" "$OUTPUT_DIR/$TARGET_APK"
-          elif [ -f "$OUTPUT_DIR/app-release-unsigned.apk" ]; then
-            cp "$OUTPUT_DIR/app-release-unsigned.apk" "$OUTPUT_DIR/$TARGET_APK"
+          APKSIGNER=$(find $ANDROID_HOME/build-tools -name apksigner | sort -V | tail -n 1)
+          echo "Using apksigner: $APKSIGNER"
+
+          RELEASE_DIR="speedlock-app/app/build/outputs/apk/release"
+          DEBUG_DIR="speedlock-app/app/build/outputs/apk/debug"
+          DIST_DIR="release_dist"
+          mkdir -p "$DIST_DIR"
+
+          # 1. Handle Release APK
+          if [ "${{ steps.signing.outputs.signed }}" = "true" ] && [ -f "$RELEASE_DIR/app-release.apk" ]; then
+            echo "Verifying signature on release APK..."
+            $APKSIGNER verify --verbose "$RELEASE_DIR/app-release.apk"
+            TARGET_RELEASE="SpeedLock-${TAG}-x6871.apk"
+            cp "$RELEASE_DIR/app-release.apk" "$DIST_DIR/$TARGET_RELEASE"
+            echo "release_signed=true" >> $GITHUB_OUTPUT
           else
-            echo "::error::No release APK found in $OUTPUT_DIR"
-            exit 1
+            echo "Packaging release APK as explicitly unsigned..."
+            TARGET_RELEASE="SpeedLock-${TAG}-x6871-unsigned.apk"
+            if [ -f "$RELEASE_DIR/app-release-unsigned.apk" ]; then
+              cp "$RELEASE_DIR/app-release-unsigned.apk" "$DIST_DIR/$TARGET_RELEASE"
+            elif [ -f "$RELEASE_DIR/app-release.apk" ]; then
+              cp "$RELEASE_DIR/app-release.apk" "$DIST_DIR/$TARGET_RELEASE"
+            fi
+            echo "release_signed=false" >> $GITHUB_OUTPUT
           fi
-          
-          cd "$OUTPUT_DIR"
-          sha256sum "$TARGET_APK" > "$TARGET_APK.sha256"
-          echo "RELEASE_APK_PATH=$OUTPUT_DIR/$TARGET_APK" >> $GITHUB_ENV
-          echo "RELEASE_SHA_PATH=$OUTPUT_DIR/$TARGET_APK.sha256" >> $GITHUB_ENV
-          echo "RELEASE_SHA=$(cat "$TARGET_APK.sha256" | awk '{print $1}')" >> $GITHUB_ENV
+
+          # 2. Handle Debug-Signed Installable APK
+          TARGET_DEBUG="SpeedLock-${TAG}-x6871-debug-installable.apk"
+          cp "$DEBUG_DIR/app-debug.apk" "$DIST_DIR/$TARGET_DEBUG"
+          echo "Verifying debug APK signature via apksigner..."
+          $APKSIGNER verify --verbose "$DIST_DIR/$TARGET_DEBUG"
+
+          # 3. Compute Checksums
+          cd "$DIST_DIR"
+          sha256sum "$TARGET_RELEASE" > "$TARGET_RELEASE.sha256"
+          sha256sum "$TARGET_DEBUG" > "$TARGET_DEBUG.sha256"
+
+          echo "RELEASE_FILE=$TARGET_RELEASE" >> $GITHUB_ENV
+          echo "RELEASE_HASH=$(cat "$TARGET_RELEASE.sha256" | awk '{print $1}')" >> $GITHUB_ENV
+          echo "DEBUG_FILE=$TARGET_DEBUG" >> $GITHUB_ENV
+          echo "DEBUG_HASH=$(cat "$TARGET_DEBUG.sha256" | awk '{print $1}')" >> $GITHUB_ENV
 
       - name: Generate Release Notes
         id: notes
         run: |
           TAG="${{ steps.release_version.outputs.tag }}"
-          cat << 'EOF' > RELEASE_NOTES.md
-          ## Speed Lock Android Application — Release ${{ steps.release_version.outputs.tag }}
+          cat << EOF > RELEASE_NOTES.md
+          ## Speed Lock Android Application — Release ${TAG}
           
           ### Target Device Profile
-          - **Device**: Infinix GT 20 Pro (`X6871`)
-          - **Commercial SoC**: MediaTek Dimensity 8200 Ultimate (`MT6896`)
-          - **Silicon Platform / BSP**: `MT6895`
-          - **Stock Kernel**: `5.10.237-android12-9-00014-gf82f7360927e-ab14119954`
-          - **ABI**: `arm64-v8a` (64-bit only, Bionic libc)
-          - **Page Size**: `4096` bytes (4 KB)
+          - **Device**: Infinix GT 20 Pro (\`X6871\`)
+          - **Commercial SoC**: MediaTek Dimensity 8200 Ultimate (\`MT6896\`)
+          - **Silicon Platform / BSP**: \`MT6895\`
+          - **Stock Kernel**: \`5.10.237-android12-9-00014-gf82f7360927e-ab14119954\`
+          - **ABI**: \`arm64-v8a\` (64-bit only, Bionic libc)
+          - **Page Size**: \`4096\` bytes (4 KB)
           
           ### Verified Integration Status
-          - **DFRoot (CVE-2024-50302)**: Metadata compatible; prebuilt module CRC and symbol audit required.
-          - **GhostLock (CVE-2024-49854)**: Metadata compatible; futex subsystem prerequisites present.
+          - **DFRoot (CVE-2024-50302)**: Metadata compatible; prebuilt module CRC and vermagic rebuild required.
+          - **GhostLock (CVE-2024-49854)**: Metadata compatible; MediaTek physical load offsets extraction required.
           - **DirtyInit**: Static audit only.
           - **UniRoot**: Static audit only.
           
           ### Automated Testbench Verification
           - **Python Integration Tests**: 30/30 PASSED
-          - **Java App Regression Tests**: 18/18 PASSED
-          - **Total Tests**: 48/48 (100% Success Rate)
+          - **Java App Regression Tests**: 22/22 PASSED
+          - **Total Tests**: 52/52 (100% Success Rate)
           
-          ### Package Verification
-          - **Artifact**: `SpeedLock-${{ steps.release_version.outputs.tag }}-x6871.apk`
-          - **SHA-256**: `${{ env.RELEASE_SHA }}`
+          ### Downloadable Artifacts & Signatures
+          - **Installable Package (Debug-Signed)**: \`${{ env.DEBUG_FILE }}\`
+            - **Signature**: Android Debug Keystore (Verified via \`apksigner\` v1 + v2)
+            - **Status**: Ready to sideload and install directly on Android devices.
+            - **SHA-256**: \`${{ env.DEBUG_HASH }}\`
+          
+          - **Release Binary**: \`${{ env.RELEASE_FILE }}\`
+            - **Status**: Unsigned release package for custom/OEM key signing.
+            - **SHA-256**: \`${{ env.RELEASE_HASH }}\`
           EOF
 
       - name: Create GitHub Release
@@ -152,7 +184,6 @@ jobs:
           draft: false
           prerelease: false
           files: |
-            ${{ env.RELEASE_APK_PATH }}
-            ${{ env.RELEASE_SHA_PATH }}
+            release_dist/*
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

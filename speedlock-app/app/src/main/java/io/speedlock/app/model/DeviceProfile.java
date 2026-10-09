@@ -88,8 +88,21 @@ public class DeviceProfile {
     public List<String> getCandidateLibraries() { return candidateLibraries; }
     public Map<String, String> getSystemProperties() { return systemProperties; }
 
+    private boolean firmwareConfigLoaded = false;
+    private String firmwareDataSource = "Unprivileged Userspace (No Live /proc/config.gz)";
+    private String operationalRootStatus = "NOT_OBTAINED (UNPRIVILEGED DIAGNOSTIC MODE)";
+
+    public boolean isFirmwareConfigLoaded() { return firmwareConfigLoaded; }
+    public void setFirmwareConfigLoaded(boolean loaded) { this.firmwareConfigLoaded = loaded; }
+
+    public String getFirmwareDataSource() { return firmwareDataSource; }
+    public void setFirmwareDataSource(String source) { this.firmwareDataSource = source; }
+
+    public String getOperationalRootStatus() { return operationalRootStatus; }
+    public void setOperationalRootStatus(String status) { this.operationalRootStatus = status; }
+
     public boolean isGki510() {
-        return kernelRelease.startsWith("5.10.") && kernelRelease.contains("android");
+        return kernelRelease != null && kernelRelease.startsWith("5.10.") && kernelRelease.contains("android");
     }
 
     public boolean isX6871() {

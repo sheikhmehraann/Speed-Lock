@@ -1,21 +1,51 @@
 <resources>
     <string name="app_name">Speed Lock</string>
-    <string name="title_device_info">Device Info</string>
-    <string name="title_backend_catalogue">Backend Catalogue</string>
-    <string name="title_compatibility">X6871 Compatibility</string>
-    <string name="title_diagnostic_logs">Diagnostic Logs</string>
+    <string name="app_subtitle">Infinix GT 20 Pro • X6871 Root Diagnostics</string>
+    <string name="target_device">Infinix GT 20 Pro (X6871)</string>
 
+    <!-- Navigation Tabs -->
+    <string name="nav_home">Home</string>
+    <string name="nav_backends">Backends</string>
+    <string name="nav_device">Device</string>
+    <string name="nav_audit">Audit</string>
+    <string name="nav_logs">Logs</string>
+    <string name="nav_settings">Settings</string>
+
+    <!-- Section Titles -->
+    <string name="title_activation_status">Activation Status</string>
+    <string name="title_device_info">Device Information</string>
+    <string name="title_backend_catalogue">Root Backend Manager</string>
+    <string name="title_compatibility">Compatibility Centre</string>
+    <string name="title_diagnostic_logs">Diagnostic Logs</string>
+    <string name="title_settings">Settings</string>
+
+    <!-- Status Badges -->
+    <string name="status_metadata_compatible">METADATA_COMPATIBLE</string>
+    <string name="status_prerequisites_met">Prerequisites Met</string>
+    <string name="status_operational_blocked">Operational Blocked</string>
+    <string name="status_root_not_obtained">Root Not Obtained (Diagnostic Mode)</string>
+
+    <!-- Buttons & Actions -->
+    <string name="btn_refresh">Refresh Detection</string>
+    <string name="btn_export_report">Export Report</string>
+    <string name="btn_view_logs">View Logs</string>
+    <string name="btn_run_audit">Run Full Audit</string>
+    <string name="btn_copy_logs">Copy Logs</string>
+    <string name="btn_export_json">Export JSON</string>
+    <string name="btn_export_markdown">Export Markdown</string>
+    <string name="btn_clear_logs">Clear Logs</string>
+    <string name="btn_check_updates">Check Updates</string>
+
+    <!-- Labels -->
     <string name="label_detected_model">Model:</string>
     <string name="label_commercial_soc">Commercial SoC:</string>
     <string name="label_bsp_platform">BSP Platform:</string>
     <string name="label_kernel_release">Kernel Release:</string>
     <string name="label_vermagic">Vermagic:</string>
     <string name="label_security_patch">Security Patch:</string>
-    <string name="label_actionable_status">Actionable Status:</string>
+    <string name="label_actionable_status">Status:</string>
 
-    <string name="btn_refresh">Refresh Detection</string>
-    <string name="btn_export_report">Export Diagnostic Report</string>
-    <string name="btn_view_logs">View Live Logs</string>
-
-    <string name="integrity_disclaimer">Notice: Metadata compatibility indicates kernel and configuration alignment. Live root support is strictly unconfirmed without physical hardware validation.</string>
+    <!-- Disclaimers & Notices -->
+    <string name="integrity_disclaimer">Notice: Metadata compatibility indicates kernel and configuration alignment. Operational root access is strictly unverified without physical device validation.</string>
+    <string name="operational_blocker_notice">Prebuilt kernel modules require exact symbol CRC matching for kernel 5.10.237-android12-9-00014 under strict CONFIG_MODVERSIONS=y.</string>
 </resources>

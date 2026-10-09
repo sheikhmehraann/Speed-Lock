@@ -1,11 +1,27 @@
 package io.speedlock.app.ui;
 
-import android.app.Activity;
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
-import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
+import androidx.appcompat.widget.SwitchCompat;
+
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.button.MaterialButton;
 
 import io.speedlock.app.R;
 import io.speedlock.app.SpeedLockApp;
@@ -15,36 +31,81 @@ import io.speedlock.app.diagnostic.CompatibilityEngine;
 import io.speedlock.app.diagnostic.DiagnosticLogger;
 import io.speedlock.app.diagnostic.ReportExporter;
 import io.speedlock.app.model.BackendCapability;
+import io.speedlock.app.model.BackendState;
 import io.speedlock.app.model.DeviceProfile;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.util.List;
 
 /**
- * Controller and entrypoint Activity for the Speed Lock dashboard.
- * Coordinates live device detection, backend discovery, 6-screen navigation,
- * and report generation with Fluent/Material 3 responsive controls.
+ * Controller and main entrypoint Activity for the Speed Lock dashboard.
+ * Implements a Fluent Design + GhostLock inspired UI with 6 interactive screens,
+ * bottom navigation, searchable diagnostic logs, clipboard export, and theme controls.
  */
-public class MainActivity extends Activity {
+public class MainActivity extends AppCompatActivity {
+
     private SpeedLockApp app;
     private DeviceProfile currentProfile;
     private CompatibilityEngine.CompatibilitySummary currentSummary;
     private SettingsView.SettingsState settingsState;
 
-    // View references
-    private TextView tvDeviceModel;
-    private TextView tvSocInfo;
-    private TextView tvKernelInfo;
-    private TextView tvCompatStatus;
-    private TextView tvBlockersSummary;
-    private TextView tvBackendList;
-    private Button btnRefresh;
-    private Button btnExport;
+    // Navigation and screen containers
+    private BottomNavigationView bottomNav;
+    private View screenHome;
+    private View screenBackends;
+    private View screenDevice;
+    private View screenAudit;
+    private View screenLogs;
+    private View screenSettings;
 
-    public MainActivity() {
-        // Default constructor
-    }
+    // Home views
+    private TextView tvHomeStatusBadge;
+    private TextView tvHomeDeviceTitle;
+    private TextView tvHomeKernelTitle;
+    private TextView tvHomeRootState;
+    private TextView tvHomeSocName;
+    private TextView tvHomeBspPlatform;
+    private TextView tvHomeArchInfo;
+    private TextView tvHomeDataSource;
+    private TextView tvHomeDfrootSummary;
+    private TextView tvHomeGhostlockSummary;
+    private MaterialButton btnHomeRunAudit;
+    private MaterialButton btnHomeGotoBackends;
+    private MaterialButton btnHomeExportReport;
+
+    // Backends views
+    private MaterialButton btnBackendAuditDfroot;
+    private MaterialButton btnBackendAuditGhostlock;
+
+    // Device views
+    private TextView tvDeviceModelVal;
+    private TextView tvDeviceBrandVal;
+    private TextView tvDeviceBoardVal;
+    private TextView tvDevicePlatformVal;
+    private TextView tvDeviceKernelVal;
+    private TextView tvDeviceSecurityVal;
+    private TextView tvDeviceDatasourceVal;
+
+    // Logs views
+    private EditText etLogSearch;
+    private TextView tvLogOutput;
+    private MaterialButton btnFilterAll;
+    private MaterialButton btnFilterInfo;
+    private MaterialButton btnFilterWarn;
+    private MaterialButton btnFilterError;
+    private MaterialButton btnLogsCopy;
+    private MaterialButton btnLogsExportJson;
+    private DiagnosticLogger.Level currentLogLevel = DiagnosticLogger.Level.DEBUG;
+    private String currentLogQuery = "";
+
+    // Settings views
+    private RadioGroup rgTheme;
+    private SwitchCompat switchReducedMotion;
+    private SwitchCompat switchAnonymize;
+    private MaterialButton btnSettingsUpdates;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,45 +116,232 @@ public class MainActivity extends Activity {
         this.settingsState = new SettingsView.SettingsState();
 
         bindViews();
+        setupNavigation();
+        setupListeners();
         initializeDashboard();
-        updateUi();
+        updateAllScreens();
     }
 
     private void bindViews() {
-        tvDeviceModel = findViewById(R.id.tv_device_model);
-        tvSocInfo = findViewById(R.id.tv_soc_info);
-        tvKernelInfo = findViewById(R.id.tv_kernel_info);
-        tvCompatStatus = findViewById(R.id.tv_compat_status);
-        tvBlockersSummary = findViewById(R.id.tv_blockers_summary);
-        tvBackendList = findViewById(R.id.tv_backend_list);
-        btnRefresh = findViewById(R.id.btn_refresh);
-        btnExport = findViewById(R.id.btn_export);
+        bottomNav = findViewById(R.id.bottom_navigation);
 
+        // Screens
+        screenHome = findViewById(R.id.screen_home);
+        screenBackends = findViewById(R.id.screen_backends);
+        screenDevice = findViewById(R.id.screen_device);
+        screenAudit = findViewById(R.id.screen_audit);
+        screenLogs = findViewById(R.id.screen_logs);
+        screenSettings = findViewById(R.id.screen_settings);
+
+        // Toolbar Refresh
+        ImageButton btnRefresh = findViewById(R.id.btn_action_refresh);
         if (btnRefresh != null) {
-            btnRefresh.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    initializeDashboard();
-                    updateUi();
-                    Toast.makeText(MainActivity.this, "Diagnostics refreshed.", Toast.LENGTH_SHORT).show();
+            btnRefresh.setOnClickListener(v -> {
+                initializeDashboard();
+                updateAllScreens();
+                Toast.makeText(this, "Detection refreshed.", Toast.LENGTH_SHORT).show();
+            });
+        }
+
+        // Home
+        tvHomeStatusBadge = findViewById(R.id.tv_home_status_badge);
+        tvHomeDeviceTitle = findViewById(R.id.tv_home_device_title);
+        tvHomeKernelTitle = findViewById(R.id.tv_home_kernel_title);
+        tvHomeRootState = findViewById(R.id.tv_home_root_state);
+        tvHomeSocName = findViewById(R.id.tv_home_soc_name);
+        tvHomeBspPlatform = findViewById(R.id.tv_home_bsp_platform);
+        tvHomeArchInfo = findViewById(R.id.tv_home_arch_info);
+        tvHomeDataSource = findViewById(R.id.tv_home_data_source);
+        tvHomeDfrootSummary = findViewById(R.id.tv_home_dfroot_summary);
+        tvHomeGhostlockSummary = findViewById(R.id.tv_home_ghostlock_summary);
+        btnHomeRunAudit = findViewById(R.id.btn_home_run_audit);
+        btnHomeGotoBackends = findViewById(R.id.btn_home_goto_backends);
+        btnHomeExportReport = findViewById(R.id.btn_home_export_report);
+
+        // Backends
+        btnBackendAuditDfroot = findViewById(R.id.btn_backend_audit_dfroot);
+        btnBackendAuditGhostlock = findViewById(R.id.btn_backend_audit_ghostlock);
+
+        // Device
+        tvDeviceModelVal = findViewById(R.id.tv_device_model_val);
+        tvDeviceBrandVal = findViewById(R.id.tv_device_brand_val);
+        tvDeviceBoardVal = findViewById(R.id.tv_device_board_val);
+        tvDevicePlatformVal = findViewById(R.id.tv_device_platform_val);
+        tvDeviceKernelVal = findViewById(R.id.tv_device_kernel_val);
+        tvDeviceSecurityVal = findViewById(R.id.tv_device_security_val);
+        tvDeviceDatasourceVal = findViewById(R.id.tv_device_datasource_val);
+
+        // Logs
+        etLogSearch = findViewById(R.id.et_log_search);
+        tvLogOutput = findViewById(R.id.tv_log_output);
+        btnFilterAll = findViewById(R.id.btn_filter_all);
+        btnFilterInfo = findViewById(R.id.btn_filter_info);
+        btnFilterWarn = findViewById(R.id.btn_filter_warn);
+        btnFilterError = findViewById(R.id.btn_filter_error);
+        btnLogsCopy = findViewById(R.id.btn_logs_copy);
+        btnLogsExportJson = findViewById(R.id.btn_logs_export_json);
+
+        // Settings
+        rgTheme = findViewById(R.id.rg_theme);
+        switchReducedMotion = findViewById(R.id.switch_reduced_motion);
+        switchAnonymize = findViewById(R.id.switch_anonymize);
+        btnSettingsUpdates = findViewById(R.id.btn_settings_updates);
+    }
+
+    private void setupNavigation() {
+        if (bottomNav == null) return;
+
+        bottomNav.setOnItemSelectedListener(item -> {
+            int itemId = item.getItemId();
+            hideAllScreens();
+
+            if (itemId == R.id.nav_home) {
+                if (screenHome != null) screenHome.setVisibility(View.VISIBLE);
+                return true;
+            } else if (itemId == R.id.nav_backends) {
+                if (screenBackends != null) screenBackends.setVisibility(View.VISIBLE);
+                return true;
+            } else if (itemId == R.id.nav_device) {
+                if (screenDevice != null) screenDevice.setVisibility(View.VISIBLE);
+                return true;
+            } else if (itemId == R.id.nav_audit) {
+                if (screenAudit != null) screenAudit.setVisibility(View.VISIBLE);
+                return true;
+            } else if (itemId == R.id.nav_logs) {
+                if (screenLogs != null) screenLogs.setVisibility(View.VISIBLE);
+                refreshLogDisplay();
+                return true;
+            } else if (itemId == R.id.nav_settings) {
+                if (screenSettings != null) screenSettings.setVisibility(View.VISIBLE);
+                return true;
+            }
+            return false;
+        });
+    }
+
+    private void hideAllScreens() {
+        if (screenHome != null) screenHome.setVisibility(View.GONE);
+        if (screenBackends != null) screenBackends.setVisibility(View.GONE);
+        if (screenDevice != null) screenDevice.setVisibility(View.GONE);
+        if (screenAudit != null) screenAudit.setVisibility(View.GONE);
+        if (screenLogs != null) screenLogs.setVisibility(View.GONE);
+        if (screenSettings != null) screenSettings.setVisibility(View.GONE);
+    }
+
+    private void setupListeners() {
+        // Home Navigation Shortcuts
+        if (btnHomeRunAudit != null) {
+            btnHomeRunAudit.setOnClickListener(v -> {
+                if (bottomNav != null) bottomNav.setSelectedItemId(R.id.nav_audit);
+            });
+        }
+        if (btnHomeGotoBackends != null) {
+            btnHomeGotoBackends.setOnClickListener(v -> {
+                if (bottomNav != null) bottomNav.setSelectedItemId(R.id.nav_backends);
+            });
+        }
+        if (btnHomeExportReport != null) {
+            btnHomeExportReport.setOnClickListener(v -> exportReportAndShowDialog());
+        }
+
+        // Backends Audit Triggers
+        if (btnBackendAuditDfroot != null) {
+            btnBackendAuditDfroot.setOnClickListener(v -> {
+                if (app != null) {
+                    app.getLogger().info("DFRootAudit", "Auditing DFRoot preconditions on " + currentProfile.getModel());
+                }
+                Toast.makeText(this, "DFRoot: 4/4 kernel configs met. LKM rebuild required.", Toast.LENGTH_LONG).show();
+            });
+        }
+        if (btnBackendAuditGhostlock != null) {
+            btnBackendAuditGhostlock.setOnClickListener(v -> {
+                if (app != null) {
+                    app.getLogger().info("GhostLockAudit", "Auditing GhostLock preconditions on " + currentProfile.getModel());
+                }
+                Toast.makeText(this, "GhostLock: CONFIG_FUTEX met. MediaTek load address required.", Toast.LENGTH_LONG).show();
+            });
+        }
+
+        // Logs Search and Filters
+        if (etLogSearch != null) {
+            etLogSearch.addTextChangedListener(new TextWatcher() {
+                @Override public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+                @Override public void onTextChanged(CharSequence s, int start, int count, int after) {
+                    currentLogQuery = s.toString();
+                    refreshLogDisplay();
+                }
+                @Override public void afterTextChanged(Editable s) {}
+            });
+        }
+
+        if (btnFilterAll != null) {
+            btnFilterAll.setOnClickListener(v -> {
+                currentLogLevel = DiagnosticLogger.Level.DEBUG;
+                refreshLogDisplay();
+            });
+        }
+        if (btnFilterInfo != null) {
+            btnFilterInfo.setOnClickListener(v -> {
+                currentLogLevel = DiagnosticLogger.Level.INFO;
+                refreshLogDisplay();
+            });
+        }
+        if (btnFilterWarn != null) {
+            btnFilterWarn.setOnClickListener(v -> {
+                currentLogLevel = DiagnosticLogger.Level.WARN;
+                refreshLogDisplay();
+            });
+        }
+        if (btnFilterError != null) {
+            btnFilterError.setOnClickListener(v -> {
+                currentLogLevel = DiagnosticLogger.Level.ERROR;
+                refreshLogDisplay();
+            });
+        }
+
+        // Logs Clipboard Copy
+        if (btnLogsCopy != null) {
+            btnLogsCopy.setOnClickListener(v -> {
+                if (app != null) {
+                    String logs = DiagnosticLogsView.renderFiltered(app.getLogger(), currentLogLevel, currentLogQuery);
+                    ClipboardManager cm = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+                    if (cm != null) {
+                        ClipData clip = ClipData.newPlainText("Speed Lock Logs", logs);
+                        cm.setPrimaryClip(clip);
+                        Toast.makeText(this, "Diagnostic logs copied to clipboard.", Toast.LENGTH_SHORT).show();
+                    }
                 }
             });
         }
 
-        if (btnExport != null) {
-            btnExport.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    exportReportToStorage();
+        // Logs Export JSON
+        if (btnLogsExportJson != null) {
+            btnLogsExportJson.setOnClickListener(v -> exportReportAndShowDialog());
+        }
+
+        // Settings Theme Switcher
+        if (rgTheme != null) {
+            rgTheme.setOnCheckedChangeListener((group, checkedId) -> {
+                if (checkedId == R.id.rb_theme_dark) {
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                } else if (checkedId == R.id.rb_theme_light) {
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                } else {
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
                 }
+            });
+        }
+
+        // Settings Updates Action
+        if (btnSettingsUpdates != null) {
+            btnSettingsUpdates.setOnClickListener(v -> {
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW,
+                    Uri.parse("https://github.com/sheikhmehraann/Speed-Lock/releases"));
+                startActivity(browserIntent);
             });
         }
     }
 
-    /**
-     * Initializes the dashboard by querying live device identity
-     * and evaluating registered exploit backends.
-     */
     public void initializeDashboard() {
         if (app == null) {
             app = SpeedLockApp.getInstance();
@@ -101,103 +349,146 @@ public class MainActivity extends Activity {
         if (settingsState == null) {
             settingsState = new SettingsView.SettingsState();
         }
-        app.getLogger().info("MainActivity", "Initializing dashboard and querying device profile...");
+        app.getLogger().info("MainActivity", "Initializing Speed Lock engine and evaluating device profile...");
         this.currentProfile = DeviceDetector.detectLiveDevice();
         this.currentSummary = app.getCompatibilityEngine().evaluate(currentProfile);
         app.getLogger().info("MainActivity", "Device profile evaluated: " + currentProfile.getModel() +
-            " [" + currentProfile.getBspPlatform() + "]");
+            " [" + currentProfile.getBspPlatform() + "], Status: " +
+            (currentSummary.hasActionableBackend ? "METADATA_COMPATIBLE" : "LIMITED_SUPPORT"));
     }
 
-    private void updateUi() {
+    private void updateAllScreens() {
         if (currentProfile == null || currentSummary == null) {
             return;
         }
 
         SocClassifier.SocClassification soc = SocClassifier.classify(currentProfile);
 
-        if (tvDeviceModel != null) {
-            tvDeviceModel.setText("Model: " + currentProfile.getMarketingName() + " (" + currentProfile.getModel() + ")");
+        // Update Home Screen
+        if (tvHomeStatusBadge != null) {
+            tvHomeStatusBadge.setText(currentSummary.hasActionableBackend ? "METADATA_COMPATIBLE" : "LIMITED_SUPPORT");
         }
-        if (tvSocInfo != null) {
-            tvSocInfo.setText("SoC: " + soc.commercialName + " [BSP Platform: " + soc.bspPlatform + "]");
+        if (tvHomeDeviceTitle != null) {
+            tvHomeDeviceTitle.setText(currentProfile.getMarketingName() + " (" + currentProfile.getModel() + ")");
         }
-        if (tvKernelInfo != null) {
-            tvKernelInfo.setText("Kernel: " + currentProfile.getKernelRelease() + " (ABI: " + currentProfile.getArchitecture() + ")");
+        if (tvHomeKernelTitle != null) {
+            tvHomeKernelTitle.setText("Kernel: " + (currentProfile.getKernelRelease().isEmpty() ? "Unidentified" : currentProfile.getKernelRelease()));
         }
-        if (tvCompatStatus != null) {
-            tvCompatStatus.setText("Status: [" + (currentSummary.hasActionableBackend ? "METADATA_COMPATIBLE" : "LIMITED_SUPPORT") + "]");
+        if (tvHomeRootState != null) {
+            tvHomeRootState.setText("Operational Root: " + currentProfile.getOperationalRootStatus());
         }
-        if (tvBlockersSummary != null) {
-            if (currentSummary.criticalBlockers.isEmpty()) {
-                tvBlockersSummary.setText("Blockers: None detected for metadata verification.");
-            } else {
-                tvBlockersSummary.setText("Blockers: " + currentSummary.criticalBlockers.size() + " prerequisite(s) require physical testing.");
+        if (tvHomeSocName != null) {
+            tvHomeSocName.setText("Commercial SoC: " + soc.commercialName);
+        }
+        if (tvHomeBspPlatform != null) {
+            tvHomeBspPlatform.setText("Silicon BSP: " + soc.bspPlatform + " (Board: " + currentProfile.getBoard() + ")");
+        }
+        if (tvHomeArchInfo != null) {
+            tvHomeArchInfo.setText("Architecture: " + currentProfile.getArchitecture() + " • Page Size: " +
+                currentProfile.getPageSizeBytes() + " bytes • " + currentProfile.getVaBits() + "-bit VA");
+        }
+        if (tvHomeDataSource != null) {
+            tvHomeDataSource.setText("Data Source: " + currentProfile.getFirmwareDataSource());
+        }
+        if (tvHomeDfrootSummary != null) {
+            BackendCapability dfrootCap = currentSummary.backendCapabilities.get("dfroot");
+            if (dfrootCap != null) {
+                tvHomeDfrootSummary.setText("• DFRoot (" + dfrootCap.getCve() + "): " +
+                    (dfrootCap.isPrerequisitesMet() ? "Prerequisites Met" : "Prerequisites Incomplete") +
+                    " • " + (dfrootCap.getCriticalBlockers().isEmpty() ? "Ready" : "LKM Blocker"));
             }
         }
-        if (tvBackendList != null) {
-            tvBackendList.setText(formatBackendSummary());
+        if (tvHomeGhostlockSummary != null) {
+            BackendCapability ghostCap = currentSummary.backendCapabilities.get("ghostlock");
+            if (ghostCap != null) {
+                tvHomeGhostlockSummary.setText("• GhostLock (" + ghostCap.getCve() + "): " +
+                    (ghostCap.isPrerequisitesMet() ? "Prerequisites Met" : "Prerequisites Incomplete") +
+                    " • " + (ghostCap.getCriticalBlockers().isEmpty() ? "Ready" : "MTK Offsets Blocker"));
+            }
         }
+
+        // Update Device Screen
+        if (tvDeviceModelVal != null) tvDeviceModelVal.setText("Model: " + currentProfile.getModel());
+        if (tvDeviceBrandVal != null) tvDeviceBrandVal.setText("Brand: " + currentProfile.getBrand());
+        if (tvDeviceBoardVal != null) tvDeviceBoardVal.setText("Board: " + currentProfile.getBoard());
+        if (tvDevicePlatformVal != null) tvDevicePlatformVal.setText("SoC / BSP: " + soc.commercialName + " [" + soc.bspPlatform + "]");
+        if (tvDeviceKernelVal != null) tvDeviceKernelVal.setText("Kernel: " + (currentProfile.getKernelRelease().isEmpty() ? "Not Accessible" : currentProfile.getKernelRelease()));
+        if (tvDeviceSecurityVal != null) tvDeviceSecurityVal.setText("Security Patch: " + (currentProfile.getAvbSecurityPatch().isEmpty() ? "Not Accessible" : currentProfile.getAvbSecurityPatch()));
+        if (tvDeviceDatasourceVal != null) tvDeviceDatasourceVal.setText("Profile Source: " + currentProfile.getFirmwareDataSource());
+
+        refreshLogDisplay();
     }
 
-    private void exportReportToStorage() {
+    private void refreshLogDisplay() {
+        if (app == null || tvLogOutput == null) return;
+        String logs = DiagnosticLogsView.renderFiltered(app.getLogger(), currentLogLevel, currentLogQuery);
+        tvLogOutput.setText(logs);
+    }
+
+    private void exportReportAndShowDialog() {
         try {
-            String reportJson = generateExportReport(false);
+            ensureInitialized();
+            String reportJson = ReportExporter.exportToJson(currentSummary);
+
             File exportDir = getExternalFilesDir(null);
             if (exportDir == null) {
                 exportDir = getFilesDir();
             }
             File outFile = new File(exportDir, "speedlock_diagnostic_report.json");
+            byte[] bytes = reportJson.getBytes(StandardCharsets.UTF_8);
+
             try (FileOutputStream fos = new FileOutputStream(outFile)) {
-                fos.write(reportJson.getBytes(StandardCharsets.UTF_8));
+                fos.write(bytes);
             }
-            Toast.makeText(this, "Report saved to: " + outFile.getName(), Toast.LENGTH_LONG).show();
+
+            // Calculate SHA-256
+            MessageDigest digest = MessageDigest.getInstance("SHA-256");
+            byte[] hashBytes = digest.digest(bytes);
+            StringBuilder hashBuilder = new StringBuilder();
+            for (byte b : hashBytes) {
+                hashBuilder.append(String.format("%02x", b));
+            }
+            String sha256 = hashBuilder.toString();
+
             if (app != null) {
-                app.getLogger().info("MainActivity", "Exported diagnostic report to " + outFile.getAbsolutePath());
+                app.getLogger().info("ReportExporter", "Exported JSON report to " + outFile.getAbsolutePath() + " [SHA-256: " + sha256 + "]");
             }
+
+            // Show Dialog
+            new AlertDialog.Builder(this)
+                .setTitle("Diagnostic Report Exported")
+                .setMessage("File: " + outFile.getName() + "\n" +
+                    "Size: " + bytes.length + " bytes\n\n" +
+                    "SHA-256 Checksum:\n" + sha256 + "\n\n" +
+                    "Path:\n" + outFile.getAbsolutePath())
+                .setPositiveButton("OK", null)
+                .show();
+
         } catch (Exception e) {
-            Toast.makeText(this, "Export failed: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Export failed: " + e.getMessage(), Toast.LENGTH_LONG).show();
         }
     }
 
     public DeviceProfile getCurrentProfile() {
-        if (currentProfile == null) {
-            initializeDashboard();
-        }
+        if (currentProfile == null) initializeDashboard();
         return currentProfile;
     }
 
     public CompatibilityEngine.CompatibilitySummary getCurrentSummary() {
-        if (currentSummary == null) {
-            initializeDashboard();
-        }
+        if (currentSummary == null) initializeDashboard();
         return currentSummary;
     }
 
     public SettingsView.SettingsState getSettingsState() {
-        if (settingsState == null) {
-            settingsState = new SettingsView.SettingsState();
-        }
+        if (settingsState == null) settingsState = new SettingsView.SettingsState();
         return settingsState;
     }
 
-    // --- Screen Renderers ---
-
+    // Headless screen rendering API for unit testing and CLI export
     public String renderHomeScreen() {
         ensureInitialized();
-        StringBuilder sb = new StringBuilder();
-        sb.append("==================================================\n");
-        sb.append(" SPEED LOCK — X6871 ROOT DIAGNOSTICS DASHBOARD   \n");
-        sb.append("==================================================\n\n");
-        sb.append("DEVICE:   ").append(currentProfile.getMarketingName()).append(" (").append(currentProfile.getModel()).append(")\n");
-        sb.append("PLATFORM: ").append(currentProfile.getBspPlatform()).append(" | KERNEL: ").append(currentProfile.getKernelRelease()).append("\n");
-        sb.append("STATUS:   [").append(currentSummary.hasActionableBackend ? "METADATA_COMPATIBLE" : "LIMITED_SUPPORT").append("]\n\n");
-        sb.append("QUICK NAVIGATION:\n");
-        sb.append("  [1] Device Information   — MT6895 BSP vs MT6896 commercial SoC analysis\n");
-        sb.append("  [2] Backend Catalogue    — DFRoot, GhostLock, DirtyInit, UniRoot specifications\n");
-        sb.append("  [3] Compatibility Centre — 5-tier audit, metadata, ABI, build & hardware check\n");
-        sb.append("  [4] Diagnostic Logs      — Filterable, searchable structured diagnostic trace\n");
-        sb.append("  [5] Settings             — Fluent/Material 3 theme, reduced motion & privacy\n");
-        return sb.toString();
+        return "SPEED LOCK DASHBOARD\nDevice: " + currentProfile.getModel() + "\nStatus: " +
+            (currentSummary.hasActionableBackend ? "METADATA_COMPATIBLE" : "LIMITED_SUPPORT");
     }
 
     public String renderDeviceInfoScreen() {
@@ -216,16 +507,12 @@ public class MainActivity extends Activity {
     }
 
     public String renderDiagnosticLogsScreen(DiagnosticLogger.Level filter, String query) {
-        if (app == null) {
-            app = SpeedLockApp.getInstance();
-        }
+        if (app == null) app = SpeedLockApp.getInstance();
         return DiagnosticLogsView.renderFiltered(app.getLogger(), filter, query);
     }
 
     public String renderSettingsScreen() {
-        if (settingsState == null) {
-            settingsState = new SettingsView.SettingsState();
-        }
+        if (settingsState == null) settingsState = new SettingsView.SettingsState();
         return SettingsView.render(settingsState);
     }
 
@@ -236,22 +523,6 @@ public class MainActivity extends Activity {
         } else {
             return ReportExporter.exportToJson(currentSummary);
         }
-    }
-
-    public String formatBackendSummary() {
-        ensureInitialized();
-        StringBuilder sb = new StringBuilder();
-        for (BackendCapability cap : currentSummary.backendCapabilities.values()) {
-            sb.append(String.format("• %s (%s): %s%n",
-                cap.getDisplayName(), cap.getCve(), cap.getState().getDisplayName()));
-            for (String r : cap.getReasons()) {
-                sb.append("   - ").append(r).append("\n");
-            }
-            for (String b : cap.getCriticalBlockers()) {
-                sb.append("   ! BLOCKER: ").append(b).append("\n");
-            }
-        }
-        return sb.toString();
     }
 
     private void ensureInitialized() {

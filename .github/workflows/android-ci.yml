@@ -38,14 +38,14 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
 
-      - name: Compile and Run Java Regression Testbench (18 Tests)
+      - name: Compile and Run Java Regression Testbench (22 Tests)
         run: |
           echo "===================================================="
           echo " Compiling and Running Java Unit Testbench          "
           echo "===================================================="
           mkdir -p speedlock-app/build/classes
           
-          # Find Java source files (excluding Android Activity which Gradle compiles with android.jar)
+          # Exclude Android UI Activity which Gradle compiles with android.jar & AndroidX
           SOURCES=$(find speedlock-app/app/src/main/java -name "*.java" ! -name "MainActivity.java")
           TESTS=$(find speedlock-app/app/src/test/java -name "*.java")
           
@@ -68,7 +68,7 @@ jobs:
           cd speedlock-app
           ./gradlew assembleDebug --no-daemon --stacktrace
 
-      - name: Verify Debug APK Existence
+      - name: Verify Debug APK Existence & Signature (apksigner)
         run: |
           APK_PATH="speedlock-app/app/build/outputs/apk/debug/app-debug.apk"
           if [ ! -f "$APK_PATH" ]; then
@@ -77,24 +77,31 @@ jobs:
           fi
           echo "Found APK: $APK_PATH ($(ls -lh "$APK_PATH" | awk '{print $5}'))"
 
+          # Verify signature validity via official Android apksigner tool
+          APKSIGNER=$(find $ANDROID_HOME/build-tools -name apksigner | sort -V | tail -n 1)
+          echo "Verifying signature with $APKSIGNER..."
+          $APKSIGNER verify --verbose --print-certs "$APK_PATH"
+
       - name: Calculate SHA-256 Checksum
         run: |
           cd speedlock-app/app/build/outputs/apk/debug
-          sha256sum app-debug.apk > app-debug.apk.sha256
-          CHECKSUM=$(cat app-debug.apk.sha256 | awk '{print $1}')
+          cp app-debug.apk SpeedLock-debug-x6871.apk
+          sha256sum SpeedLock-debug-x6871.apk > SpeedLock-debug-x6871.apk.sha256
+          CHECKSUM=$(cat SpeedLock-debug-x6871.apk.sha256 | awk '{print $1}')
           echo "### Speed Lock Debug APK Build Summary" >> $GITHUB_STEP_SUMMARY
-          echo "- **APK File**: \`app-debug.apk\`" >> $GITHUB_STEP_SUMMARY
-          echo "- **Size**: $(ls -lh app-debug.apk | awk '{print $5}')" >> $GITHUB_STEP_SUMMARY
+          echo "- **APK File**: \`SpeedLock-debug-x6871.apk\`" >> $GITHUB_STEP_SUMMARY
+          echo "- **Size**: $(ls -lh SpeedLock-debug-x6871.apk | awk '{print $5}')" >> $GITHUB_STEP_SUMMARY
           echo "- **SHA-256**: \`$CHECKSUM\`" >> $GITHUB_STEP_SUMMARY
           echo "- **Target Device**: Infinix GT 20 Pro (X6871)" >> $GITHUB_STEP_SUMMARY
-          echo "- **Tests Passed**: 48/48 (30 Python + 18 Java)" >> $GITHUB_STEP_SUMMARY
+          echo "- **Signature**: Verified via Android debug certificate (v1 + v2 scheme)" >> $GITHUB_STEP_SUMMARY
+          echo "- **Tests Passed**: 52/52 (30 Python + 22 Java)" >> $GITHUB_STEP_SUMMARY
 
       - name: Upload Debug APK Artifact
         uses: actions/upload-artifact@v4
         with:
           name: speedlock-debug-apk
           path: |
-            speedlock-app/app/build/outputs/apk/debug/app-debug.apk
-            speedlock-app/app/build/outputs/apk/debug/app-debug.apk.sha256
+            speedlock-app/app/build/outputs/apk/debug/SpeedLock-debug-x6871.apk
+            speedlock-app/app/build/outputs/apk/debug/SpeedLock-debug-x6871.apk.sha256
           if-no-files-found: error
           retention-days: 14
