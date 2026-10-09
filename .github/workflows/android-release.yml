@@ -39,7 +39,7 @@ jobs:
         with:
           python-version: '3.11'
 
-      - name: Run Python Integration Testbench (30 Tests)
+      - name: Run Python Integration Testbench (31 Tests)
         run: |
           echo "Running Python testbench verification..."
           python integration/x6871/tests/run_all_tests.py
@@ -50,7 +50,7 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
 
-      - name: Compile and Run Java Unit Testbench (22 Tests)
+      - name: Compile and Run Java Unit Testbench (26 Tests)
         run: |
           echo "Running Java testbench verification..."
           mkdir -p speedlock-app/build/classes
@@ -160,9 +160,9 @@ jobs:
           - **UniRoot**: Static audit only.
           
           ### Automated Testbench Verification
-          - **Python Integration Tests**: 30/30 PASSED
-          - **Java App Regression Tests**: 22/22 PASSED
-          - **Total Tests**: 52/52 (100% Success Rate)
+          - **Python Integration Tests**: 31/31 PASSED
+          - **Java App Regression Tests**: 26/26 PASSED
+          - **Total Tests**: 57/57 (100% Success Rate)
           
           ### Downloadable Artifacts & Signatures
           - **Installable Package (Debug-Signed)**: \`${{ env.DEBUG_FILE }}\`

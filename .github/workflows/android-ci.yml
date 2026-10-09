@@ -25,7 +25,7 @@ jobs:
         with:
           python-version: '3.11'
 
-      - name: Run Python Integration Testbench (30 Tests)
+      - name: Run Python Integration Testbench (31 Tests)
         run: |
           echo "===================================================="
           echo " Running Speed Lock X6871 Python Regression Tests   "
@@ -38,7 +38,7 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
 
-      - name: Compile and Run Java Regression Testbench (22 Tests)
+      - name: Compile and Run Java Regression Testbench (26 Tests)
         run: |
           echo "===================================================="
           echo " Compiling and Running Java Unit Testbench          "
@@ -94,7 +94,7 @@ jobs:
           echo "- **SHA-256**: \`$CHECKSUM\`" >> $GITHUB_STEP_SUMMARY
           echo "- **Target Device**: Infinix GT 20 Pro (X6871)" >> $GITHUB_STEP_SUMMARY
           echo "- **Signature**: Verified via Android debug certificate (v1 + v2 scheme)" >> $GITHUB_STEP_SUMMARY
-          echo "- **Tests Passed**: 52/52 (30 Python + 22 Java)" >> $GITHUB_STEP_SUMMARY
+          echo "- **Tests Passed**: 57/57 (31 Python + 26 Java)" >> $GITHUB_STEP_SUMMARY
 
       - name: Upload Debug APK Artifact
         uses: actions/upload-artifact@v4

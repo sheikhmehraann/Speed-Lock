@@ -53,7 +53,8 @@ public class SpeedLockTestRunner {
             CompatibilityEngineTest.class,
             ReportExporterTest.class,
             FirmwareInspectionIntegrationTest.class,
-            OperationalRootIntegrityTest.class
+            OperationalRootIntegrityTest.class,
+            LayoutInflationSafetyTest.class
         );
 
         int totalTests = 0;

@@ -27,6 +27,8 @@ downloaded-release-apk/
 **/downloaded-release-apk/
 downloaded-fresh-apk/
 **/downloaded-fresh-apk/
+downloaded-v*/
+**/downloaded-v*/
 __pycache__/
 **/__pycache__/
 *.pyc

@@ -151,5 +151,16 @@ class TestManifestSchema(unittest.TestCase):
         errors = ManifestSchemaValidator.validate(manifest)
         self.assertTrue(any("page_size_bytes must be a positive integer" in e for e in errors))
 
+    def test_bottom_navigation_menu_limit(self):
+        import xml.etree.ElementTree as ET
+        menu_path = os.path.join(self.workspace, "speedlock-app", "app", "src", "main", "res", "menu", "bottom_nav_menu.xml")
+        self.assertTrue(os.path.exists(menu_path), f"bottom_nav_menu.xml not found at {menu_path}")
+        tree = ET.parse(menu_path)
+        root = tree.getroot()
+        items = root.findall(".//item")
+        self.assertLessEqual(len(items), 5,
+            f"BottomNavigationView supports maximum 5 items (found {len(items)}). Exceeding causes runtime InflateException!")
+        self.assertEqual(len(items), 5, "Expected exactly 5 items in bottom_nav_menu.xml")
+
 if __name__ == "__main__":
     unittest.main()

@@ -75,6 +75,8 @@ public class MainActivity extends AppCompatActivity {
     private MaterialButton btnHomeRunAudit;
     private MaterialButton btnHomeGotoBackends;
     private MaterialButton btnHomeExportReport;
+    private MaterialButton btnHomeGotoSettings;
+    private ImageButton btnActionSettings;
 
     // Backends views
     private MaterialButton btnBackendAuditDfroot;
@@ -133,7 +135,7 @@ public class MainActivity extends AppCompatActivity {
         screenLogs = findViewById(R.id.screen_logs);
         screenSettings = findViewById(R.id.screen_settings);
 
-        // Toolbar Refresh
+        // Toolbar Actions
         ImageButton btnRefresh = findViewById(R.id.btn_action_refresh);
         if (btnRefresh != null) {
             btnRefresh.setOnClickListener(v -> {
@@ -142,6 +144,7 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(this, "Detection refreshed.", Toast.LENGTH_SHORT).show();
             });
         }
+        btnActionSettings = findViewById(R.id.btn_action_settings);
 
         // Home
         tvHomeStatusBadge = findViewById(R.id.tv_home_status_badge);
@@ -157,6 +160,7 @@ public class MainActivity extends AppCompatActivity {
         btnHomeRunAudit = findViewById(R.id.btn_home_run_audit);
         btnHomeGotoBackends = findViewById(R.id.btn_home_goto_backends);
         btnHomeExportReport = findViewById(R.id.btn_home_export_report);
+        btnHomeGotoSettings = findViewById(R.id.btn_home_goto_settings);
 
         // Backends
         btnBackendAuditDfroot = findViewById(R.id.btn_backend_audit_dfroot);
@@ -211,9 +215,6 @@ public class MainActivity extends AppCompatActivity {
                 if (screenLogs != null) screenLogs.setVisibility(View.VISIBLE);
                 refreshLogDisplay();
                 return true;
-            } else if (itemId == R.id.nav_settings) {
-                if (screenSettings != null) screenSettings.setVisibility(View.VISIBLE);
-                return true;
             }
             return false;
         });
@@ -242,6 +243,12 @@ public class MainActivity extends AppCompatActivity {
         }
         if (btnHomeExportReport != null) {
             btnHomeExportReport.setOnClickListener(v -> exportReportAndShowDialog());
+        }
+        if (btnHomeGotoSettings != null) {
+            btnHomeGotoSettings.setOnClickListener(v -> openSettingsScreen());
+        }
+        if (btnActionSettings != null) {
+            btnActionSettings.setOnClickListener(v -> openSettingsScreen());
         }
 
         // Backends Audit Triggers
@@ -322,12 +329,16 @@ public class MainActivity extends AppCompatActivity {
         // Settings Theme Switcher
         if (rgTheme != null) {
             rgTheme.setOnCheckedChangeListener((group, checkedId) -> {
+                int targetMode;
                 if (checkedId == R.id.rb_theme_dark) {
-                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                    targetMode = AppCompatDelegate.MODE_NIGHT_YES;
                 } else if (checkedId == R.id.rb_theme_light) {
-                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                    targetMode = AppCompatDelegate.MODE_NIGHT_NO;
                 } else {
-                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
+                    targetMode = AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM;
+                }
+                if (AppCompatDelegate.getDefaultNightMode() != targetMode) {
+                    AppCompatDelegate.setDefaultNightMode(targetMode);
                 }
             });
         }
@@ -340,6 +351,34 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(browserIntent);
             });
         }
+    }
+
+    public void openSettingsScreen() {
+        hideAllScreens();
+        if (screenSettings != null) {
+            screenSettings.setVisibility(View.VISIBLE);
+        }
+        if (bottomNav != null) {
+            bottomNav.getMenu().setGroupCheckable(0, true, false);
+            for (int i = 0; i < bottomNav.getMenu().size(); i++) {
+                bottomNav.getMenu().getItem(i).setChecked(false);
+            }
+            bottomNav.getMenu().setGroupCheckable(0, true, true);
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (screenHome != null && screenHome.getVisibility() != View.VISIBLE) {
+            if (bottomNav != null) {
+                bottomNav.setSelectedItemId(R.id.nav_home);
+            } else {
+                hideAllScreens();
+                screenHome.setVisibility(View.VISIBLE);
+            }
+            return;
+        }
+        super.onBackPressed();
     }
 
     public void initializeDashboard() {
