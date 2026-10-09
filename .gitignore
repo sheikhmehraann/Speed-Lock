@@ -23,6 +23,8 @@ build/
 *.apk
 downloaded-apk/
 **/downloaded-apk/
+downloaded-release-apk/
+**/downloaded-release-apk/
 __pycache__/
 **/__pycache__/
 *.pyc
