@@ -20,6 +20,9 @@ build/
 .gradle/
 **/.gradle/
 *.class
+*.apk
+downloaded-apk/
+**/downloaded-apk/
 __pycache__/
 **/__pycache__/
 *.pyc
