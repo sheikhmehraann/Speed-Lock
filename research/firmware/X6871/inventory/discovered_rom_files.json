@@ -1,0 +1,742 @@
+[
+  {
+    "path": "C:\\Users\\Admin\\Music\\Mehrnn\\Roms\\Infinix-GT-20-Pro-X6871-15-31.zip",
+    "rel": "Infinix-GT-20-Pro-X6871-15-31.zip",
+    "size": 8461051956,
+    "mtime": "2026-09-23 02:03:34",
+    "sha256": "DDCD785B15872A8C98307797F2DF4853D4039637733AA79CA12002C9637B9544"
+  },
+  {
+    "path": "C:\\Users\\Admin\\Music\\Mehrnn\\Roms\\X6871-15.1.2.180SP05-OP001PF001AZ-recovery-ab.zip",
+    "rel": "X6871-15.1.2.180SP05-OP001PF001AZ-recovery-ab.zip",
+    "size": 8268135546,
+    "mtime": "2026-09-20 14:24:39",
+    "sha256": "C6185F0DEBFF07E3709B3208D75C6B04B94214A67ADA25713081B472739C26D4"
+  },
+  {
+    "path": "C:\\Users\\Admin\\Music\\Mehrnn\\Roms\\Infinix-GT-20-Pro-X6871-15-31\\APDB_MT6895___W2452",
+    "rel": "Infinix-GT-20-Pro-X6871-15-31\\APDB_MT6895___W2452",
+    "size": 344080,
+    "mtime": "2026-06-18 21:06:47"
+  },
+  {
+    "path": "C:\\Users\\Admin\\Music\\Mehrnn\\Roms\\Infinix-GT-20-Pro-X6871-15-31\\APDB_MT6895___W2452_ENUM",
+    "rel": "Infinix-GT-20-Pro-X6871-15-31\\APDB_MT6895___W2452_ENUM",
+    "size": 24147,
+    "mtime": "2026-06-18 21:06:39"
+  },
+  {
+    "path": "C:\\Users\\Admin\\Music\\Mehrnn\\Roms\\Infinix-GT-20-Pro-X6871-15-31\\apusys.img",
+    "rel": "Infinix-GT-20-Pro-X6871-15-31\\apusys.img",
+    "size": 1442784,
+    "mtime": "2026-06-18 21:06:38"
+  },
+  {
+    "path": "C:\\Users\\Admin\\Music\\Mehrnn\\Roms\\Infinix-GT-20-Pro-X6871-15-31\\boot.img",
+    "rel": "Infinix-GT-20-Pro-X6871-15-31\\boot.img",
+    "size": 67108864,
+    "mtime": "2026-06-18 21:06:39"
+  },
+  {
+    "path": "C:\\Users\\Admin\\Music\\Mehrnn\\Roms\\Infinix-GT-20-Pro-X6871-15-31\\ccu.img",
+    "rel": "Infinix-GT-20-Pro-X6871-15-31\\ccu.img",
+    "size": 174848,
+    "mtime": "2026-06-18 21:06:47"
+  },
+  {
+    "path": "C:\\Users\\Admin\\Music\\Mehrnn\\Roms\\Infinix-GT-20-Pro-X6871-15-31\\dpm.img",
+    "rel": "Infinix-GT-20-Pro-X6871-15-31\\dpm.img",
+    "size": 264048,
+    "mtime": "2026-06-18 21:06:38"
+  },
+  {
+    "path": "C:\\Users\\Admin\\Music\\Mehrnn\\Roms\\Infinix-GT-20-Pro-X6871-15-31\\dtbo.img",
+    "rel": "Infinix-GT-20-Pro-X6871-15-31\\dtbo.img",
+    "size": 8388608,
+    "mtime": "2026-06-18 21:06:47"
+  },
+  {
+    "path": "C:\\Users\\Admin\\Music\\Mehrnn\\Roms\\Infinix-GT-20-Pro-X6871-15-31\\efuse.img",
+    "rel": "Infinix-GT-20-Pro-X6871-15-31\\efuse.img",
+    "size": 512,
+    "mtime": "2026-06-18 21:06:47"
+  },
+  {
+    "path": "C:\\Users\\Admin\\Music\\Mehrnn\\Roms\\Infinix-GT-20-Pro-X6871-15-31\\gpueb.img",
+    "rel": "Infinix-GT-20-Pro-X6871-15-31\\gpueb.img",
+    "size": 424976,
+    "mtime": "2026-06-18 21:06:47"
+  },
+  {
+    "path": "C:\\Users\\Admin\\Music\\Mehrnn\\Roms\\Infinix-GT-20-Pro-X6871-15-31\\gz.img",
+    "rel": "Infinix-GT-20-Pro-X6871-15-31\\gz.img",
+    "size": 6053952,
+    "mtime": "2026-06-18 21:06:47"
+  },
+  {
+    "path": "C:\\Users\\Admin\\Music\\Mehrnn\\Roms\\Infinix-GT-20-Pro-X6871-15-31\\installed-files-ramdisk.txt",
+    "rel": "Infinix-GT-20-Pro-X6871-15-31\\installed-files-ramdisk.txt",
+    "size": 81,
+    "mtime": "2026-06-18 21:06:39"
+  },
+  {
+    "path": "C:\\Users\\Admin\\Music\\Mehrnn\\Roms\\Infinix-GT-20-Pro-X6871-15-31\\installed-files-vendor.txt",
+    "rel": "Infinix-GT-20-Pro-X6871-15-31\\installed-files-vendor.txt",
+    "size": 186691,
+    "mtime": "2026-06-18 21:06:38"
+  },
+  {
+    "path": "C:\\Users\\Admin\\Music\\Mehrnn\\Roms\\Infinix-GT-20-Pro-X6871-15-31\\lk.img",
+    "rel": "Infinix-GT-20-Pro-X6871-15-31\\lk.img",
+    "size": 2696384,
+    "mtime": "2026-06-18 21:06:47"
+  },
+  {
+    "path": "C:\\Users\\Admin\\Music\\Mehrnn\\Roms\\Infinix-GT-20-Pro-X6871-15-31\\logo.bin",
+    "rel": "Infinix-GT-20-Pro-X6871-15-31\\logo.bin",
+    "size": 613920,
+    "mtime": "2026-06-18 21:06:47"
+  },
+  {
+    "path": "C:\\Users\\Admin\\Music\\Mehrnn\\Roms\\Infinix-GT-20-Pro-X6871-15-31\\mcf_ota.img",
+    "rel": "Infinix-GT-20-Pro-X6871-15-31\\mcf_ota.img",
+    "size": 29999104,
+    "mtime": "2026-06-18 21:06:38"
+  },
+  {
+    "path": "C:\\Users\\Admin\\Music\\Mehrnn\\Roms\\Infinix-GT-20-Pro-X6871-15-31\\mcupm.img",
+    "rel": "Infinix-GT-20-Pro-X6871-15-31\\mcupm.img",
+    "size": 632608,
+    "mtime": "2026-06-18 21:06:38"
+  },
+  {
+    "path": "C:\\Users\\Admin\\Music\\Mehrnn\\Roms\\Infinix-GT-20-Pro-X6871-15-31\\md1img.img",
+    "rel": "Infinix-GT-20-Pro-X6871-15-31\\md1img.img",
+    "size": 71377520,
+    "mtime": "2026-06-18 21:06:47"
+  },
+  {
+    "path": "C:\\Users\\Admin\\Music\\Mehrnn\\Roms\\Infinix-GT-20-Pro-X6871-15-31\\MDDB_InfoCustomAppSrcP_MT6895_S00_MOLY_NR16_R1_MP3_MP_V80_2_P16_1_unlwctg_n.EDB",
+    "rel": "Infinix-GT-20-Pro-X6871-15-31\\MDDB_InfoCustomAppSrcP_MT6895_S00_MOLY_NR16_R1_MP3_MP_V80_2_P16_1_unlwctg_n.EDB",
+    "size": 12553603,
+    "mtime": "2026-06-18 21:06:39"
+  },
+  {
+    "path": "C:\\Users\\Admin\\Music\\Mehrnn\\Roms\\Infinix-GT-20-Pro-X6871-15-31\\MT6895_Android_scatter.txt",
+    "rel": "Infinix-GT-20-Pro-X6871-15-31\\MT6895_Android_scatter.txt",
+    "size": 75037,
+    "mtime": "2026-06-18 21:06:47"
+  },
+  {
+    "path": "C:\\Users\\Admin\\Music\\Mehrnn\\Roms\\Infinix-GT-20-Pro-X6871-15-31\\MT6895_Android_scatter.xml",
+    "rel": "Infinix-GT-20-Pro-X6871-15-31\\MT6895_Android_scatter.xml",
+    "size": 124915,
+    "mtime": "2026-06-18 21:06:47"
+  },
+  {
+    "path": "C:\\Users\\Admin\\Music\\Mehrnn\\Roms\\Infinix-GT-20-Pro-X6871-15-31\\mvpu_algo.img",
+    "rel": "Infinix-GT-20-Pro-X6871-15-31\\mvpu_algo.img",
+    "size": 59488,
+    "mtime": "2026-06-18 21:06:47"
+  },
+  {
+    "path": "C:\\Users\\Admin\\Music\\Mehrnn\\Roms\\Infinix-GT-20-Pro-X6871-15-31\\odm_dlkm.img",
+    "rel": "Infinix-GT-20-Pro-X6871-15-31\\odm_dlkm.img",
+    "size": 73864,
+    "mtime": "2026-06-18 21:06:39"
+  },
+  {
+    "path": "C:\\Users\\Admin\\Music\\Mehrnn\\Roms\\Infinix-GT-20-Pro-X6871-15-31\\odm_dlkm.map",
+    "rel": "Infinix-GT-20-Pro-X6871-15-31\\odm_dlkm.map",
+    "size": 59,
+    "mtime": "2026-06-18 21:06:39"
+  },
+  {
+    "path": "C:\\Users\\Admin\\Music\\Mehrnn\\Roms\\Infinix-GT-20-Pro-X6871-15-31\\pi_img.img",
+    "rel": "Infinix-GT-20-Pro-X6871-15-31\\pi_img.img",
+    "size": 5648,
+    "mtime": "2026-06-18 21:06:47"
+  },
+  {
+    "path": "C:\\Users\\Admin\\Music\\Mehrnn\\Roms\\Infinix-GT-20-Pro-X6871-15-31\\preloader.img",
+    "rel": "Infinix-GT-20-Pro-X6871-15-31\\preloader.img",
+    "size": 506824,
+    "mtime": "2026-06-18 21:06:47"
+  },
+  {
+    "path": "C:\\Users\\Admin\\Music\\Mehrnn\\Roms\\Infinix-GT-20-Pro-X6871-15-31\\preloader_emmc.img",
+    "rel": "Infinix-GT-20-Pro-X6871-15-31\\preloader_emmc.img",
+    "size": 506824,
+    "mtime": "2026-06-18 21:06:39"
+  },
+  {
+    "path": "C:\\Users\\Admin\\Music\\Mehrnn\\Roms\\Infinix-GT-20-Pro-X6871-15-31\\preloader_raw.img",
+    "rel": "Infinix-GT-20-Pro-X6871-15-31\\preloader_raw.img",
+    "size": 502728,
+    "mtime": "2026-06-18 21:06:38"
+  },
+  {
+    "path": "C:\\Users\\Admin\\Music\\Mehrnn\\Roms\\Infinix-GT-20-Pro-X6871-15-31\\preloader_ufs.img",
+    "rel": "Infinix-GT-20-Pro-X6871-15-31\\preloader_ufs.img",
+    "size": 506824,
+    "mtime": "2026-06-18 21:06:47"
+  },
+  {
+    "path": "C:\\Users\\Admin\\Music\\Mehrnn\\Roms\\Infinix-GT-20-Pro-X6871-15-31\\preloader_x6871_h962.bin",
+    "rel": "Infinix-GT-20-Pro-X6871-15-31\\preloader_x6871_h962.bin",
+    "size": 502728,
+    "mtime": "2026-06-18 21:06:47"
+  },
+  {
+    "path": "C:\\Users\\Admin\\Music\\Mehrnn\\Roms\\Infinix-GT-20-Pro-X6871-15-31\\product.map",
+    "rel": "Infinix-GT-20-Pro-X6871-15-31\\product.map",
+    "size": 77904,
+    "mtime": "2026-06-18 21:06:47"
+  },
+  {
+    "path": "C:\\Users\\Admin\\Music\\Mehrnn\\Roms\\Infinix-GT-20-Pro-X6871-15-31\\scatter_checksum.xml",
+    "rel": "Infinix-GT-20-Pro-X6871-15-31\\scatter_checksum.xml",
+    "size": 2254,
+    "mtime": "2026-06-18 21:06:38"
+  },
+  {
+    "path": "C:\\Users\\Admin\\Music\\Mehrnn\\Roms\\Infinix-GT-20-Pro-X6871-15-31\\scp.img",
+    "rel": "Infinix-GT-20-Pro-X6871-15-31\\scp.img",
+    "size": 1208048,
+    "mtime": "2026-06-18 21:06:47"
+  },
+  {
+    "path": "C:\\Users\\Admin\\Music\\Mehrnn\\Roms\\Infinix-GT-20-Pro-X6871-15-31\\spmfw.img",
+    "rel": "Infinix-GT-20-Pro-X6871-15-31\\spmfw.img",
+    "size": 18144,
+    "mtime": "2026-06-18 21:06:38"
+  },
+  {
+    "path": "C:\\Users\\Admin\\Music\\Mehrnn\\Roms\\Infinix-GT-20-Pro-X6871-15-31\\sspm.img",
+    "rel": "Infinix-GT-20-Pro-X6871-15-31\\sspm.img",
+    "size": 1019008,
+    "mtime": "2026-06-18 21:06:47"
+  },
+  {
+    "path": "C:\\Users\\Admin\\Music\\Mehrnn\\Roms\\Infinix-GT-20-Pro-X6871-15-31\\super.img",
+    "rel": "Infinix-GT-20-Pro-X6871-15-31\\super.img",
+    "size": 9259485668,
+    "mtime": "2026-06-18 21:06:47"
+  },
+  {
+    "path": "C:\\Users\\Admin\\Music\\Mehrnn\\Roms\\Infinix-GT-20-Pro-X6871-15-31\\super_empty.img",
+    "rel": "Infinix-GT-20-Pro-X6871-15-31\\super_empty.img",
+    "size": 6016,
+    "mtime": "2026-06-18 21:06:47"
+  },
+  {
+    "path": "C:\\Users\\Admin\\Music\\Mehrnn\\Roms\\Infinix-GT-20-Pro-X6871-15-31\\system.map",
+    "rel": "Infinix-GT-20-Pro-X6871-15-31\\system.map",
+    "size": 168680,
+    "mtime": "2026-06-18 21:06:38"
+  },
+  {
+    "path": "C:\\Users\\Admin\\Music\\Mehrnn\\Roms\\Infinix-GT-20-Pro-X6871-15-31\\system_ext.map",
+    "rel": "Infinix-GT-20-Pro-X6871-15-31\\system_ext.map",
+    "size": 57562,
+    "mtime": "2026-06-18 21:06:47"
+  },
+  {
+    "path": "C:\\Users\\Admin\\Music\\Mehrnn\\Roms\\Infinix-GT-20-Pro-X6871-15-31\\tee.img",
+    "rel": "Infinix-GT-20-Pro-X6871-15-31\\tee.img",
+    "size": 860368,
+    "mtime": "2026-06-18 21:06:38"
+  },
+  {
+    "path": "C:\\Users\\Admin\\Music\\Mehrnn\\Roms\\Infinix-GT-20-Pro-X6871-15-31\\tkv.img",
+    "rel": "Infinix-GT-20-Pro-X6871-15-31\\tkv.img",
+    "size": 528576,
+    "mtime": "2026-06-18 21:06:38"
+  },
+  {
+    "path": "C:\\Users\\Admin\\Music\\Mehrnn\\Roms\\Infinix-GT-20-Pro-X6871-15-31\\tool_custom.ini",
+    "rel": "Infinix-GT-20-Pro-X6871-15-31\\tool_custom.ini",
+    "size": 79,
+    "mtime": "2026-06-18 21:06:47"
+  },
+  {
+    "path": "C:\\Users\\Admin\\Music\\Mehrnn\\Roms\\Infinix-GT-20-Pro-X6871-15-31\\tranfs.img",
+    "rel": "Infinix-GT-20-Pro-X6871-15-31\\tranfs.img",
+    "size": 3350676,
+    "mtime": "2026-06-18 21:06:38"
+  },
+  {
+    "path": "C:\\Users\\Admin\\Music\\Mehrnn\\Roms\\Infinix-GT-20-Pro-X6871-15-31\\tr_carrier.img",
+    "rel": "Infinix-GT-20-Pro-X6871-15-31\\tr_carrier.img",
+    "size": 20568,
+    "mtime": "2026-06-18 21:06:47"
+  },
+  {
+    "path": "C:\\Users\\Admin\\Music\\Mehrnn\\Roms\\Infinix-GT-20-Pro-X6871-15-31\\tr_carrier.map",
+    "rel": "Infinix-GT-20-Pro-X6871-15-31\\tr_carrier.map",
+    "size": 0,
+    "mtime": "2026-06-18 21:06:47"
+  },
+  {
+    "path": "C:\\Users\\Admin\\Music\\Mehrnn\\Roms\\Infinix-GT-20-Pro-X6871-15-31\\tr_company.img",
+    "rel": "Infinix-GT-20-Pro-X6871-15-31\\tr_company.img",
+    "size": 20568,
+    "mtime": "2026-06-18 21:06:47"
+  },
+  {
+    "path": "C:\\Users\\Admin\\Music\\Mehrnn\\Roms\\Infinix-GT-20-Pro-X6871-15-31\\tr_company.map",
+    "rel": "Infinix-GT-20-Pro-X6871-15-31\\tr_company.map",
+    "size": 0,
+    "mtime": "2026-06-18 21:06:38"
+  },
+  {
+    "path": "C:\\Users\\Admin\\Music\\Mehrnn\\Roms\\Infinix-GT-20-Pro-X6871-15-31\\tr_mi.img",
+    "rel": "Infinix-GT-20-Pro-X6871-15-31\\tr_mi.img",
+    "size": 999524,
+    "mtime": "2026-06-18 21:06:38"
+  },
+  {
+    "path": "C:\\Users\\Admin\\Music\\Mehrnn\\Roms\\Infinix-GT-20-Pro-X6871-15-31\\tr_mi.map",
+    "rel": "Infinix-GT-20-Pro-X6871-15-31\\tr_mi.map",
+    "size": 346,
+    "mtime": "2026-06-18 21:06:38"
+  },
+  {
+    "path": "C:\\Users\\Admin\\Music\\Mehrnn\\Roms\\Infinix-GT-20-Pro-X6871-15-31\\tr_overlayfs.img",
+    "rel": "Infinix-GT-20-Pro-X6871-15-31\\tr_overlayfs.img",
+    "size": 20568,
+    "mtime": "2026-06-18 21:06:38"
+  },
+  {
+    "path": "C:\\Users\\Admin\\Music\\Mehrnn\\Roms\\Infinix-GT-20-Pro-X6871-15-31\\tr_overlayfs.map",
+    "rel": "Infinix-GT-20-Pro-X6871-15-31\\tr_overlayfs.map",
+    "size": 0,
+    "mtime": "2026-06-18 21:06:38"
+  },
+  {
+    "path": "C:\\Users\\Admin\\Music\\Mehrnn\\Roms\\Infinix-GT-20-Pro-X6871-15-31\\tr_preload.img",
+    "rel": "Infinix-GT-20-Pro-X6871-15-31\\tr_preload.img",
+    "size": 20568,
+    "mtime": "2026-06-18 21:06:47"
+  },
+  {
+    "path": "C:\\Users\\Admin\\Music\\Mehrnn\\Roms\\Infinix-GT-20-Pro-X6871-15-31\\tr_preload.map",
+    "rel": "Infinix-GT-20-Pro-X6871-15-31\\tr_preload.map",
+    "size": 0,
+    "mtime": "2026-06-18 21:06:47"
+  },
+  {
+    "path": "C:\\Users\\Admin\\Music\\Mehrnn\\Roms\\Infinix-GT-20-Pro-X6871-15-31\\tr_product.img",
+    "rel": "Infinix-GT-20-Pro-X6871-15-31\\tr_product.img",
+    "size": 20568,
+    "mtime": "2026-06-18 21:06:38"
+  },
+  {
+    "path": "C:\\Users\\Admin\\Music\\Mehrnn\\Roms\\Infinix-GT-20-Pro-X6871-15-31\\tr_product.map",
+    "rel": "Infinix-GT-20-Pro-X6871-15-31\\tr_product.map",
+    "size": 0,
+    "mtime": "2026-06-18 21:06:47"
+  },
+  {
+    "path": "C:\\Users\\Admin\\Music\\Mehrnn\\Roms\\Infinix-GT-20-Pro-X6871-15-31\\tr_region.img",
+    "rel": "Infinix-GT-20-Pro-X6871-15-31\\tr_region.img",
+    "size": 20568,
+    "mtime": "2026-06-18 21:06:47"
+  },
+  {
+    "path": "C:\\Users\\Admin\\Music\\Mehrnn\\Roms\\Infinix-GT-20-Pro-X6871-15-31\\tr_region.map",
+    "rel": "Infinix-GT-20-Pro-X6871-15-31\\tr_region.map",
+    "size": 0,
+    "mtime": "2026-06-18 21:06:47"
+  },
+  {
+    "path": "C:\\Users\\Admin\\Music\\Mehrnn\\Roms\\Infinix-GT-20-Pro-X6871-15-31\\tr_theme.img",
+    "rel": "Infinix-GT-20-Pro-X6871-15-31\\tr_theme.img",
+    "size": 20568,
+    "mtime": "2026-06-18 21:06:39"
+  },
+  {
+    "path": "C:\\Users\\Admin\\Music\\Mehrnn\\Roms\\Infinix-GT-20-Pro-X6871-15-31\\tr_theme.map",
+    "rel": "Infinix-GT-20-Pro-X6871-15-31\\tr_theme.map",
+    "size": 0,
+    "mtime": "2026-06-18 21:06:38"
+  },
+  {
+    "path": "C:\\Users\\Admin\\Music\\Mehrnn\\Roms\\Infinix-GT-20-Pro-X6871-15-31\\userdata.img",
+    "rel": "Infinix-GT-20-Pro-X6871-15-31\\userdata.img",
+    "size": 8139100,
+    "mtime": "2026-06-18 21:06:39"
+  },
+  {
+    "path": "C:\\Users\\Admin\\Music\\Mehrnn\\Roms\\Infinix-GT-20-Pro-X6871-15-31\\vbmeta.img",
+    "rel": "Infinix-GT-20-Pro-X6871-15-31\\vbmeta.img",
+    "size": 12288,
+    "mtime": "2026-06-18 21:06:39"
+  },
+  {
+    "path": "C:\\Users\\Admin\\Music\\Mehrnn\\Roms\\Infinix-GT-20-Pro-X6871-15-31\\vbmeta_system.img",
+    "rel": "Infinix-GT-20-Pro-X6871-15-31\\vbmeta_system.img",
+    "size": 4096,
+    "mtime": "2026-06-18 21:06:47"
+  },
+  {
+    "path": "C:\\Users\\Admin\\Music\\Mehrnn\\Roms\\Infinix-GT-20-Pro-X6871-15-31\\vbmeta_vendor.img",
+    "rel": "Infinix-GT-20-Pro-X6871-15-31\\vbmeta_vendor.img",
+    "size": 4096,
+    "mtime": "2026-06-18 21:06:38"
+  },
+  {
+    "path": "C:\\Users\\Admin\\Music\\Mehrnn\\Roms\\Infinix-GT-20-Pro-X6871-15-31\\vcp.img",
+    "rel": "Infinix-GT-20-Pro-X6871-15-31\\vcp.img",
+    "size": 1586800,
+    "mtime": "2026-06-18 21:06:47"
+  },
+  {
+    "path": "C:\\Users\\Admin\\Music\\Mehrnn\\Roms\\Infinix-GT-20-Pro-X6871-15-31\\vendor.map",
+    "rel": "Infinix-GT-20-Pro-X6871-15-31\\vendor.map",
+    "size": 251000,
+    "mtime": "2026-06-18 21:06:38"
+  },
+  {
+    "path": "C:\\Users\\Admin\\Music\\Mehrnn\\Roms\\Infinix-GT-20-Pro-X6871-15-31\\vendor_boot-debug.img",
+    "rel": "Infinix-GT-20-Pro-X6871-15-31\\vendor_boot-debug.img",
+    "size": 29569024,
+    "mtime": "2026-06-18 21:06:47"
+  },
+  {
+    "path": "C:\\Users\\Admin\\Music\\Mehrnn\\Roms\\Infinix-GT-20-Pro-X6871-15-31\\vendor_boot.img",
+    "rel": "Infinix-GT-20-Pro-X6871-15-31\\vendor_boot.img",
+    "size": 67108864,
+    "mtime": "2026-06-18 21:06:38"
+  },
+  {
+    "path": "C:\\Users\\Admin\\Music\\Mehrnn\\Roms\\Infinix-GT-20-Pro-X6871-15-31\\vendor_dlkm.img",
+    "rel": "Infinix-GT-20-Pro-X6871-15-31\\vendor_dlkm.img",
+    "size": 21811300,
+    "mtime": "2026-06-18 21:06:39"
+  },
+  {
+    "path": "C:\\Users\\Admin\\Music\\Mehrnn\\Roms\\Infinix-GT-20-Pro-X6871-15-31\\vendor_dlkm.map",
+    "rel": "Infinix-GT-20-Pro-X6871-15-31\\vendor_dlkm.map",
+    "size": 11401,
+    "mtime": "2026-06-18 21:06:47"
+  },
+  {
+    "path": "C:\\Users\\Admin\\Music\\Mehrnn\\Roms\\Infinix-GT-20-Pro-X6871-15-31\\version.csv",
+    "rel": "Infinix-GT-20-Pro-X6871-15-31\\version.csv",
+    "size": 352,
+    "mtime": "2026-06-18 21:06:47"
+  },
+  {
+    "path": "C:\\Users\\Admin\\Music\\Mehrnn\\Roms\\Infinix-GT-20-Pro-X6871-15-31\\download_agent\\DA_BR.bin",
+    "rel": "Infinix-GT-20-Pro-X6871-15-31\\download_agent\\DA_BR.bin",
+    "size": 1006016,
+    "mtime": "2026-06-18 21:06:38"
+  },
+  {
+    "path": "C:\\Users\\Admin\\Music\\Mehrnn\\Roms\\Infinix-GT-20-Pro-X6871-15-31\\download_agent\\flash.xml",
+    "rel": "Infinix-GT-20-Pro-X6871-15-31\\download_agent\\flash.xml",
+    "size": 553,
+    "mtime": "2026-06-18 21:06:38"
+  },
+  {
+    "path": "C:\\Users\\Admin\\Music\\Mehrnn\\Roms\\Infinix-GT-20-Pro-X6871-15-31\\download_agent\\flash.xsd",
+    "rel": "Infinix-GT-20-Pro-X6871-15-31\\download_agent\\flash.xsd",
+    "size": 889,
+    "mtime": "2026-06-18 21:06:38"
+  },
+  {
+    "path": "C:\\Users\\Admin\\Music\\Mehrnn\\Roms\\Infinix-GT-20-Pro-X6871-15-31\\Open\\logo.bin",
+    "rel": "Infinix-GT-20-Pro-X6871-15-31\\Open\\logo.bin",
+    "size": 613920,
+    "mtime": "2026-06-18 21:06:39"
+  },
+  {
+    "path": "C:\\Users\\Admin\\Music\\Mehrnn\\Roms\\Infinix-GT-20-Pro-X6871-15-31\\Open\\md1img.img",
+    "rel": "Infinix-GT-20-Pro-X6871-15-31\\Open\\md1img.img",
+    "size": 71377520,
+    "mtime": "2026-06-18 21:06:39"
+  },
+  {
+    "path": "C:\\Users\\Admin\\Music\\Mehrnn\\Roms\\Infinix-GT-20-Pro-X6871-15-31\\Open\\Open_scatter.xml",
+    "rel": "Infinix-GT-20-Pro-X6871-15-31\\Open\\Open_scatter.xml",
+    "size": 125112,
+    "mtime": "2026-06-18 21:06:39"
+  },
+  {
+    "path": "C:\\Users\\Admin\\Music\\Mehrnn\\Roms\\Infinix-GT-20-Pro-X6871-15-31\\Open\\scatter_checksum.xml",
+    "rel": "Infinix-GT-20-Pro-X6871-15-31\\Open\\scatter_checksum.xml",
+    "size": 2329,
+    "mtime": "2026-06-18 21:06:39"
+  },
+  {
+    "path": "C:\\Users\\Admin\\Music\\Mehrnn\\Roms\\Infinix-GT-20-Pro-X6871-15-31\\Open\\super.img",
+    "rel": "Infinix-GT-20-Pro-X6871-15-31\\Open\\super.img",
+    "size": 509645368,
+    "mtime": "2026-06-18 21:06:39"
+  },
+  {
+    "path": "C:\\Users\\Admin\\Music\\Mehrnn\\Roms\\Infinix-GT-20-Pro-X6871-15-31\\Open\\tkv.img",
+    "rel": "Infinix-GT-20-Pro-X6871-15-31\\Open\\tkv.img",
+    "size": 528576,
+    "mtime": "2026-06-18 21:06:39"
+  },
+  {
+    "path": "C:\\Users\\Admin\\Music\\Mehrnn\\Roms\\Infinix-GT-20-Pro-X6871-15-31\\Open\\tool_custom.ini",
+    "rel": "Infinix-GT-20-Pro-X6871-15-31\\Open\\tool_custom.ini",
+    "size": 79,
+    "mtime": "2026-06-18 21:06:39"
+  },
+  {
+    "path": "C:\\Users\\Admin\\Music\\Mehrnn\\Roms\\Infinix-GT-20-Pro-X6871-15-31\\Open\\vbmeta.img",
+    "rel": "Infinix-GT-20-Pro-X6871-15-31\\Open\\vbmeta.img",
+    "size": 12288,
+    "mtime": "2026-06-18 21:06:39"
+  },
+  {
+    "path": "C:\\Users\\Admin\\Music\\Mehrnn\\Roms\\X6871-15.1.2.180SP05-OP001PF001AZ-recovery-ab\\boot.img",
+    "rel": "X6871-15.1.2.180SP05-OP001PF001AZ-recovery-ab\\boot.img",
+    "size": 67108864,
+    "mtime": "2026-07-07 22:56:22"
+  },
+  {
+    "path": "C:\\Users\\Admin\\Music\\Mehrnn\\Roms\\X6871-15.1.2.180SP05-OP001PF001AZ-recovery-ab\\dtbo.img",
+    "rel": "X6871-15.1.2.180SP05-OP001PF001AZ-recovery-ab\\dtbo.img",
+    "size": 8388608,
+    "mtime": "2026-07-07 22:56:20"
+  },
+  {
+    "path": "C:\\Users\\Admin\\Music\\Mehrnn\\Roms\\X6871-15.1.2.180SP05-OP001PF001AZ-recovery-ab\\odm_dlkm.img.zst",
+    "rel": "X6871-15.1.2.180SP05-OP001PF001AZ-recovery-ab\\odm_dlkm.img.zst",
+    "size": 4304,
+    "mtime": "2026-07-07 22:57:00"
+  },
+  {
+    "path": "C:\\Users\\Admin\\Music\\Mehrnn\\Roms\\X6871-15.1.2.180SP05-OP001PF001AZ-recovery-ab\\product.img.zst",
+    "rel": "X6871-15.1.2.180SP05-OP001PF001AZ-recovery-ab\\product.img.zst",
+    "size": 2934724506,
+    "mtime": "2026-07-07 22:57:22"
+  },
+  {
+    "path": "C:\\Users\\Admin\\Music\\Mehrnn\\Roms\\X6871-15.1.2.180SP05-OP001PF001AZ-recovery-ab\\system.img.zst",
+    "rel": "X6871-15.1.2.180SP05-OP001PF001AZ-recovery-ab\\system.img.zst",
+    "size": 686911701,
+    "mtime": "2026-07-07 22:57:08"
+  },
+  {
+    "path": "C:\\Users\\Admin\\Music\\Mehrnn\\Roms\\X6871-15.1.2.180SP05-OP001PF001AZ-recovery-ab\\system_ext.img.zst",
+    "rel": "X6871-15.1.2.180SP05-OP001PF001AZ-recovery-ab\\system_ext.img.zst",
+    "size": 2401893710,
+    "mtime": "2026-07-07 22:57:22"
+  },
+  {
+    "path": "C:\\Users\\Admin\\Music\\Mehrnn\\Roms\\X6871-15.1.2.180SP05-OP001PF001AZ-recovery-ab\\tr_carrier.img.zst",
+    "rel": "X6871-15.1.2.180SP05-OP001PF001AZ-recovery-ab\\tr_carrier.img.zst",
+    "size": 2919,
+    "mtime": "2026-07-07 22:56:42"
+  },
+  {
+    "path": "C:\\Users\\Admin\\Music\\Mehrnn\\Roms\\X6871-15.1.2.180SP05-OP001PF001AZ-recovery-ab\\tr_company.img.zst",
+    "rel": "X6871-15.1.2.180SP05-OP001PF001AZ-recovery-ab\\tr_company.img.zst",
+    "size": 2907,
+    "mtime": "2026-07-07 22:56:42"
+  },
+  {
+    "path": "C:\\Users\\Admin\\Music\\Mehrnn\\Roms\\X6871-15.1.2.180SP05-OP001PF001AZ-recovery-ab\\tr_mi.img.zst",
+    "rel": "X6871-15.1.2.180SP05-OP001PF001AZ-recovery-ab\\tr_mi.img.zst",
+    "size": 2895,
+    "mtime": "2026-07-07 22:56:42"
+  },
+  {
+    "path": "C:\\Users\\Admin\\Music\\Mehrnn\\Roms\\X6871-15.1.2.180SP05-OP001PF001AZ-recovery-ab\\tr_overlayfs.img.zst",
+    "rel": "X6871-15.1.2.180SP05-OP001PF001AZ-recovery-ab\\tr_overlayfs.img.zst",
+    "size": 2973,
+    "mtime": "2026-07-07 22:56:42"
+  },
+  {
+    "path": "C:\\Users\\Admin\\Music\\Mehrnn\\Roms\\X6871-15.1.2.180SP05-OP001PF001AZ-recovery-ab\\tr_preload.img.zst",
+    "rel": "X6871-15.1.2.180SP05-OP001PF001AZ-recovery-ab\\tr_preload.img.zst",
+    "size": 267485697,
+    "mtime": "2026-07-07 22:57:06"
+  },
+  {
+    "path": "C:\\Users\\Admin\\Music\\Mehrnn\\Roms\\X6871-15.1.2.180SP05-OP001PF001AZ-recovery-ab\\tr_product.img.zst",
+    "rel": "X6871-15.1.2.180SP05-OP001PF001AZ-recovery-ab\\tr_product.img.zst",
+    "size": 188983150,
+    "mtime": "2026-07-07 22:57:02"
+  },
+  {
+    "path": "C:\\Users\\Admin\\Music\\Mehrnn\\Roms\\X6871-15.1.2.180SP05-OP001PF001AZ-recovery-ab\\tr_region.img.zst",
+    "rel": "X6871-15.1.2.180SP05-OP001PF001AZ-recovery-ab\\tr_region.img.zst",
+    "size": 5450,
+    "mtime": "2026-07-07 22:57:02"
+  },
+  {
+    "path": "C:\\Users\\Admin\\Music\\Mehrnn\\Roms\\X6871-15.1.2.180SP05-OP001PF001AZ-recovery-ab\\tr_theme.img.zst",
+    "rel": "X6871-15.1.2.180SP05-OP001PF001AZ-recovery-ab\\tr_theme.img.zst",
+    "size": 2910,
+    "mtime": "2026-07-07 22:56:22"
+  },
+  {
+    "path": "C:\\Users\\Admin\\Music\\Mehrnn\\Roms\\X6871-15.1.2.180SP05-OP001PF001AZ-recovery-ab\\vbmeta.img",
+    "rel": "X6871-15.1.2.180SP05-OP001PF001AZ-recovery-ab\\vbmeta.img",
+    "size": 12288,
+    "mtime": "2026-07-07 22:56:22"
+  },
+  {
+    "path": "C:\\Users\\Admin\\Music\\Mehrnn\\Roms\\X6871-15.1.2.180SP05-OP001PF001AZ-recovery-ab\\vbmeta_system.img",
+    "rel": "X6871-15.1.2.180SP05-OP001PF001AZ-recovery-ab\\vbmeta_system.img",
+    "size": 4096,
+    "mtime": "2026-07-07 22:56:22"
+  },
+  {
+    "path": "C:\\Users\\Admin\\Music\\Mehrnn\\Roms\\X6871-15.1.2.180SP05-OP001PF001AZ-recovery-ab\\vbmeta_vendor.img",
+    "rel": "X6871-15.1.2.180SP05-OP001PF001AZ-recovery-ab\\vbmeta_vendor.img",
+    "size": 4096,
+    "mtime": "2026-07-07 22:56:22"
+  },
+  {
+    "path": "C:\\Users\\Admin\\Music\\Mehrnn\\Roms\\X6871-15.1.2.180SP05-OP001PF001AZ-recovery-ab\\vendor.img.zst",
+    "rel": "X6871-15.1.2.180SP05-OP001PF001AZ-recovery-ab\\vendor.img.zst",
+    "size": 1670226957,
+    "mtime": "2026-07-07 22:57:22"
+  },
+  {
+    "path": "C:\\Users\\Admin\\Music\\Mehrnn\\Roms\\X6871-15.1.2.180SP05-OP001PF001AZ-recovery-ab\\vendor_boot.img",
+    "rel": "X6871-15.1.2.180SP05-OP001PF001AZ-recovery-ab\\vendor_boot.img",
+    "size": 67108864,
+    "mtime": "2026-07-07 22:56:26"
+  },
+  {
+    "path": "C:\\Users\\Admin\\Music\\Mehrnn\\Roms\\X6871-15.1.2.180SP05-OP001PF001AZ-recovery-ab\\vendor_dlkm.img.zst",
+    "rel": "X6871-15.1.2.180SP05-OP001PF001AZ-recovery-ab\\vendor_dlkm.img.zst",
+    "size": 14564324,
+    "mtime": "2026-07-07 22:57:10"
+  },
+  {
+    "path": "C:\\Users\\Admin\\Music\\Mehrnn\\Roms\\X6871-15.1.2.180SP05-OP001PF001AZ-recovery-ab\\firmware\\apusys.img",
+    "rel": "X6871-15.1.2.180SP05-OP001PF001AZ-recovery-ab\\firmware\\apusys.img",
+    "size": 1445888,
+    "mtime": "2026-07-07 22:56:20"
+  },
+  {
+    "path": "C:\\Users\\Admin\\Music\\Mehrnn\\Roms\\X6871-15.1.2.180SP05-OP001PF001AZ-recovery-ab\\firmware\\ccu.img",
+    "rel": "X6871-15.1.2.180SP05-OP001PF001AZ-recovery-ab\\firmware\\ccu.img",
+    "size": 176128,
+    "mtime": "2026-07-07 22:56:22"
+  },
+  {
+    "path": "C:\\Users\\Admin\\Music\\Mehrnn\\Roms\\X6871-15.1.2.180SP05-OP001PF001AZ-recovery-ab\\firmware\\dpm.img",
+    "rel": "X6871-15.1.2.180SP05-OP001PF001AZ-recovery-ab\\firmware\\dpm.img",
+    "size": 266240,
+    "mtime": "2026-07-07 22:56:22"
+  },
+  {
+    "path": "C:\\Users\\Admin\\Music\\Mehrnn\\Roms\\X6871-15.1.2.180SP05-OP001PF001AZ-recovery-ab\\firmware\\gpueb.img",
+    "rel": "X6871-15.1.2.180SP05-OP001PF001AZ-recovery-ab\\firmware\\gpueb.img",
+    "size": 425984,
+    "mtime": "2026-07-07 22:56:20"
+  },
+  {
+    "path": "C:\\Users\\Admin\\Music\\Mehrnn\\Roms\\X6871-15.1.2.180SP05-OP001PF001AZ-recovery-ab\\firmware\\gz.img",
+    "rel": "X6871-15.1.2.180SP05-OP001PF001AZ-recovery-ab\\firmware\\gz.img",
+    "size": 6057984,
+    "mtime": "2026-07-07 22:56:20"
+  },
+  {
+    "path": "C:\\Users\\Admin\\Music\\Mehrnn\\Roms\\X6871-15.1.2.180SP05-OP001PF001AZ-recovery-ab\\firmware\\lk.img",
+    "rel": "X6871-15.1.2.180SP05-OP001PF001AZ-recovery-ab\\firmware\\lk.img",
+    "size": 2699264,
+    "mtime": "2026-07-07 22:56:22"
+  },
+  {
+    "path": "C:\\Users\\Admin\\Music\\Mehrnn\\Roms\\X6871-15.1.2.180SP05-OP001PF001AZ-recovery-ab\\firmware\\logo.img",
+    "rel": "X6871-15.1.2.180SP05-OP001PF001AZ-recovery-ab\\firmware\\logo.img",
+    "size": 614400,
+    "mtime": "2026-07-07 22:56:22"
+  },
+  {
+    "path": "C:\\Users\\Admin\\Music\\Mehrnn\\Roms\\X6871-15.1.2.180SP05-OP001PF001AZ-recovery-ab\\firmware\\mcf_ota.img",
+    "rel": "X6871-15.1.2.180SP05-OP001PF001AZ-recovery-ab\\firmware\\mcf_ota.img",
+    "size": 29999104,
+    "mtime": "2026-07-07 22:56:20"
+  },
+  {
+    "path": "C:\\Users\\Admin\\Music\\Mehrnn\\Roms\\X6871-15.1.2.180SP05-OP001PF001AZ-recovery-ab\\firmware\\mcupm.img",
+    "rel": "X6871-15.1.2.180SP05-OP001PF001AZ-recovery-ab\\firmware\\mcupm.img",
+    "size": 634880,
+    "mtime": "2026-07-07 22:56:20"
+  },
+  {
+    "path": "C:\\Users\\Admin\\Music\\Mehrnn\\Roms\\X6871-15.1.2.180SP05-OP001PF001AZ-recovery-ab\\firmware\\md1img.img",
+    "rel": "X6871-15.1.2.180SP05-OP001PF001AZ-recovery-ab\\firmware\\md1img.img",
+    "size": 71380992,
+    "mtime": "2026-07-07 22:56:22"
+  },
+  {
+    "path": "C:\\Users\\Admin\\Music\\Mehrnn\\Roms\\X6871-15.1.2.180SP05-OP001PF001AZ-recovery-ab\\firmware\\mvpu_algo.img",
+    "rel": "X6871-15.1.2.180SP05-OP001PF001AZ-recovery-ab\\firmware\\mvpu_algo.img",
+    "size": 61440,
+    "mtime": "2026-07-07 22:56:22"
+  },
+  {
+    "path": "C:\\Users\\Admin\\Music\\Mehrnn\\Roms\\X6871-15.1.2.180SP05-OP001PF001AZ-recovery-ab\\firmware\\pi_img.img",
+    "rel": "X6871-15.1.2.180SP05-OP001PF001AZ-recovery-ab\\firmware\\pi_img.img",
+    "size": 8192,
+    "mtime": "2026-07-07 22:56:22"
+  },
+  {
+    "path": "C:\\Users\\Admin\\Music\\Mehrnn\\Roms\\X6871-15.1.2.180SP05-OP001PF001AZ-recovery-ab\\firmware\\preloader_raw.img",
+    "rel": "X6871-15.1.2.180SP05-OP001PF001AZ-recovery-ab\\firmware\\preloader_raw.img",
+    "size": 503808,
+    "mtime": "2026-07-07 22:56:22"
+  },
+  {
+    "path": "C:\\Users\\Admin\\Music\\Mehrnn\\Roms\\X6871-15.1.2.180SP05-OP001PF001AZ-recovery-ab\\firmware\\scp.img",
+    "rel": "X6871-15.1.2.180SP05-OP001PF001AZ-recovery-ab\\firmware\\scp.img",
+    "size": 1208320,
+    "mtime": "2026-07-07 22:56:46"
+  },
+  {
+    "path": "C:\\Users\\Admin\\Music\\Mehrnn\\Roms\\X6871-15.1.2.180SP05-OP001PF001AZ-recovery-ab\\firmware\\spmfw.img",
+    "rel": "X6871-15.1.2.180SP05-OP001PF001AZ-recovery-ab\\firmware\\spmfw.img",
+    "size": 20480,
+    "mtime": "2026-07-07 22:56:46"
+  },
+  {
+    "path": "C:\\Users\\Admin\\Music\\Mehrnn\\Roms\\X6871-15.1.2.180SP05-OP001PF001AZ-recovery-ab\\firmware\\sspm.img",
+    "rel": "X6871-15.1.2.180SP05-OP001PF001AZ-recovery-ab\\firmware\\sspm.img",
+    "size": 1019904,
+    "mtime": "2026-07-07 22:56:20"
+  },
+  {
+    "path": "C:\\Users\\Admin\\Music\\Mehrnn\\Roms\\X6871-15.1.2.180SP05-OP001PF001AZ-recovery-ab\\firmware\\tee.img",
+    "rel": "X6871-15.1.2.180SP05-OP001PF001AZ-recovery-ab\\firmware\\tee.img",
+    "size": 864256,
+    "mtime": "2026-07-07 22:56:46"
+  },
+  {
+    "path": "C:\\Users\\Admin\\Music\\Mehrnn\\Roms\\X6871-15.1.2.180SP05-OP001PF001AZ-recovery-ab\\firmware\\tkv.img",
+    "rel": "X6871-15.1.2.180SP05-OP001PF001AZ-recovery-ab\\firmware\\tkv.img",
+    "size": 532480,
+    "mtime": "2026-07-07 22:56:46"
+  },
+  {
+    "path": "C:\\Users\\Admin\\Music\\Mehrnn\\Roms\\X6871-15.1.2.180SP05-OP001PF001AZ-recovery-ab\\firmware\\vcp.img",
+    "rel": "X6871-15.1.2.180SP05-OP001PF001AZ-recovery-ab\\firmware\\vcp.img",
+    "size": 1589248,
+    "mtime": "2026-07-07 22:56:22"
+  },
+  {
+    "path": "C:\\Users\\Admin\\Music\\Mehrnn\\Roms\\X6871-15.1.2.180SP05-OP001PF001AZ-recovery-ab\\META-INF\\zstd",
+    "rel": "X6871-15.1.2.180SP05-OP001PF001AZ-recovery-ab\\META-INF\\zstd",
+    "size": 1053600,
+    "mtime": "2026-07-07 23:04:28"
+  },
+  {
+    "path": "C:\\Users\\Admin\\Music\\Mehrnn\\Roms\\X6871-15.1.2.180SP05-OP001PF001AZ-recovery-ab\\META-INF\\com\\google\\android\\update-binary",
+    "rel": "X6871-15.1.2.180SP05-OP001PF001AZ-recovery-ab\\META-INF\\com\\google\\android\\update-binary",
+    "size": 9172,
+    "mtime": "2026-07-07 23:04:28"
+  }
+]

@@ -1,0 +1,98 @@
+name: Android CI
+
+on:
+  push:
+    branches: [ main, master, develop ]
+  pull_request:
+    branches: [ main, master, develop ]
+  workflow_dispatch:
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test-and-build:
+    name: Test & Build Speed Lock APK
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Source Code
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Run Python Integration Testbench (30 Tests)
+        run: |
+          echo "===================================================="
+          echo " Running Speed Lock X6871 Python Regression Tests   "
+          echo "===================================================="
+          python integration/x6871/tests/run_all_tests.py
+
+      - name: Set up Java JDK 17 (Temurin)
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Compile and Run Java Regression Testbench (18 Tests)
+        run: |
+          echo "===================================================="
+          echo " Compiling and Running Java Unit Testbench          "
+          echo "===================================================="
+          mkdir -p speedlock-app/build/classes
+          
+          # Find Java source files (excluding Android Activity which Gradle compiles with android.jar)
+          SOURCES=$(find speedlock-app/app/src/main/java -name "*.java" ! -name "MainActivity.java")
+          TESTS=$(find speedlock-app/app/src/test/java -name "*.java")
+          
+          javac -d speedlock-app/build/classes $SOURCES $TESTS
+          java -cp speedlock-app/build/classes io.speedlock.app.SpeedLockTestRunner
+
+      - name: Set up Android SDK
+        uses: android-actions/setup-android@v3
+
+      - name: Cache Gradle Packages
+        uses: gradle/actions/setup-gradle@v4
+
+      - name: Ensure gradlew Executable Permission
+        run: chmod +x speedlock-app/gradlew
+
+      - name: Assemble Debug APK
+        run: |
+          cd speedlock-app
+          ./gradlew assembleDebug --no-daemon --stacktrace
+
+      - name: Verify Debug APK Existence
+        run: |
+          APK_PATH="speedlock-app/app/build/outputs/apk/debug/app-debug.apk"
+          if [ ! -f "$APK_PATH" ]; then
+            echo "::error::Debug APK not found at $APK_PATH"
+            exit 1
+          fi
+          echo "Found APK: $APK_PATH ($(ls -lh "$APK_PATH" | awk '{print $5}'))"
+
+      - name: Calculate SHA-256 Checksum
+        run: |
+          cd speedlock-app/app/build/outputs/apk/debug
+          sha256sum app-debug.apk > app-debug.apk.sha256
+          CHECKSUM=$(cat app-debug.apk.sha256 | awk '{print $1}')
+          echo "### Speed Lock Debug APK Build Summary" >> $GITHUB_STEP_SUMMARY
+          echo "- **APK File**: \`app-debug.apk\`" >> $GITHUB_STEP_SUMMARY
+          echo "- **Size**: $(ls -lh app-debug.apk | awk '{print $5}')" >> $GITHUB_STEP_SUMMARY
+          echo "- **SHA-256**: \`$CHECKSUM\`" >> $GITHUB_STEP_SUMMARY
+          echo "- **Target Device**: Infinix GT 20 Pro (X6871)" >> $GITHUB_STEP_SUMMARY
+          echo "- **Tests Passed**: 48/48 (30 Python + 18 Java)" >> $GITHUB_STEP_SUMMARY
+
+      - name: Upload Debug APK Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: speedlock-debug-apk
+          path: |
+            speedlock-app/app/build/outputs/apk/debug/app-debug.apk
+            speedlock-app/app/build/outputs/apk/debug/app-debug.apk.sha256
+          if-no-files-found: error
+          retention-days: 14

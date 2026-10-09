@@ -1,0 +1,2 @@
+     2548888  /ramdisk/init
+        1035  /ramdisk/system/etc/ramdisk/build.prop

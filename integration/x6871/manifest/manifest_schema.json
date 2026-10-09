@@ -1,0 +1,83 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "SpeedLockDeviceManifest",
+  "type": "object",
+  "required": [
+    "device_info",
+    "kernel_info",
+    "security_profile",
+    "backend_capabilities"
+  ],
+  "properties": {
+    "device_info": {
+      "type": "object",
+      "required": ["brand", "model", "marketing_name", "soc", "board"],
+      "properties": {
+        "brand": { "type": "string" },
+        "model": { "type": "string" },
+        "marketing_name": { "type": "string" },
+        "soc": { "type": "string" },
+        "board": { "type": "string" },
+        "regional_variant": { "type": "string" },
+        "userspace_os": { "type": "string" }
+      }
+    },
+    "kernel_info": {
+      "type": "object",
+      "required": ["architecture", "page_size_bytes", "va_bits", "release_string", "vermagic", "kmi_generation"],
+      "properties": {
+        "architecture": { "type": "string", "enum": ["arm64", "arm", "x86_64", "x86"] },
+        "page_size_bytes": { "type": "integer" },
+        "va_bits": { "type": "integer" },
+        "release_string": { "type": "string" },
+        "vermagic": { "type": "string" },
+        "kmi_generation": { "type": "string" },
+        "gki_version": { "type": "string" },
+        "compiler": { "type": "string" },
+        "compile_timestamp": { "type": "string" }
+      }
+    },
+    "security_profile": {
+      "type": "object",
+      "required": ["avb_security_patch", "module_sig_enforced", "cfi_enabled", "scs_enabled", "kaslr_enabled"],
+      "properties": {
+        "avb_security_patch": { "type": "string" },
+        "avb_rollback_index": { "type": "integer" },
+        "module_sig_enforced": { "type": "boolean" },
+        "cfi_enabled": { "type": "boolean" },
+        "scs_enabled": { "type": "boolean" },
+        "kaslr_enabled": { "type": "boolean" },
+        "selinux_mode": { "type": "string" }
+      }
+    },
+    "backend_capabilities": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "required": ["backend_name", "state", "reasons", "prerequisites_met"],
+        "properties": {
+          "backend_name": { "type": "string" },
+          "state": {
+            "type": "string",
+            "enum": [
+              "UNSUPPORTED",
+              "UNTESTED",
+              "METADATA_COMPATIBLE",
+              "ABI_COMPATIBLE",
+              "VERIFIED_CONFIRMED"
+            ]
+          },
+          "reasons": {
+            "type": "array",
+            "items": { "type": "string" }
+          },
+          "prerequisites_met": { "type": "boolean" },
+          "critical_blockers": {
+            "type": "array",
+            "items": { "type": "string" }
+          }
+        }
+      }
+    }
+  }
+}

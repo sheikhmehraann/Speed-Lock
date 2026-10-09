@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<scatter>
+	<version>1.0</version>
+	<images>
+		<file name="preloader_x6871_h962.bin" chk_method="ADD" checksum="0xa95ff8bc"/>
+		<file name="preloader_x6871_h962.bin" chk_method="ADD" checksum="0xa95ff8bc"/>
+		<file name="vbmeta.img" chk_method="ADD" checksum="0x4b9b7427"/>
+		<file name="vbmeta_system.img" chk_method="ADD" checksum="0x42571a0d"/>
+		<file name="vbmeta_vendor.img" chk_method="ADD" checksum="0x8a2badf6"/>
+		<file name="md1img.img" chk_method="ADD" checksum="0xe42cf3b9"/>
+		<file name="spmfw.img" chk_method="ADD" checksum="0x4101713"/>
+		<file name="mcf_ota.img" chk_method="ADD" checksum="0x4175e339"/>
+		<file name="pi_img.img" chk_method="ADD" checksum="0xd01dc876"/>
+		<file name="dpm.img" chk_method="ADD" checksum="0xbb026b33"/>
+		<file name="scp.img" chk_method="ADD" checksum="0xef928719"/>
+		<file name="ccu.img" chk_method="ADD" checksum="0x2ab613af"/>
+		<file name="vcp.img" chk_method="ADD" checksum="0x745c3d8d"/>
+		<file name="sspm.img" chk_method="ADD" checksum="0x4a6c78e2"/>
+		<file name="mcupm.img" chk_method="ADD" checksum="0x29bdb4da"/>
+		<file name="gpueb.img" chk_method="ADD" checksum="0x974f1dfa"/>
+		<file name="apusys.img" chk_method="ADD" checksum="0xc5d8bda5"/>
+		<file name="mvpu_algo.img" chk_method="ADD" checksum="0x2a38def8"/>
+		<file name="gz.img" chk_method="ADD" checksum="0x97b8662"/>
+		<file name="lk.img" chk_method="ADD" checksum="0xcdee274b"/>
+		<file name="logo.bin" chk_method="ADD" checksum="0x307d9c7"/>
+		<file name="boot.img" chk_method="ADD" checksum="0xa9e281ae"/>
+		<file name="vendor_boot.img" chk_method="ADD" checksum="0x6d70c923"/>
+		<file name="dtbo.img" chk_method="ADD" checksum="0xf4f75140"/>
+		<file name="tee.img" chk_method="ADD" checksum="0x365f5aa2"/>
+		<file name="efuse.img" chk_method="ADD" checksum="0x800a14f4"/>
+		<file name="logo.bin" chk_method="ADD" checksum="0x307d9c7"/>
+		<file name="super.img" chk_method="ADD" checksum="0x4eec71cd"/>
+		<file name="tkv.img" chk_method="ADD" checksum="0xf8bd6226"/>
+		<file name="tkv.img" chk_method="ADD" checksum="0xf8bd6226"/>
+		<file name="tranfs.img" chk_method="ADD" checksum="0xfbf8691e"/>
+		<file name="userdata.img" chk_method="ADD" checksum="0x924a8514"/>
+	</images>
+</scatter>

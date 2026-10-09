@@ -1,0 +1,156 @@
+name: Android Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+    inputs:
+      tag_name:
+        description: 'Release Tag (e.g. v1.0.0)'
+        required: false
+        default: 'v1.0.0'
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    name: Build & Publish Release APK
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Source Code
+        uses: actions/checkout@v4
+
+      - name: Determine Release Tag
+        id: release_version
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ] && [ -n "${{ github.event.inputs.tag_name }}" ]; then
+            TAG="${{ github.event.inputs.tag_name }}"
+          else
+            TAG="${GITHUB_REF#refs/tags/}"
+          fi
+          echo "tag=$TAG" >> $GITHUB_OUTPUT
+          echo "Building Speed Lock release: $TAG"
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Run Python Integration Testbench (30 Tests)
+        run: |
+          echo "Running Python testbench verification..."
+          python integration/x6871/tests/run_all_tests.py
+
+      - name: Set up Java JDK 17 (Temurin)
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Compile and Run Java Unit Testbench (18 Tests)
+        run: |
+          echo "Running Java testbench verification..."
+          mkdir -p speedlock-app/build/classes
+          SOURCES=$(find speedlock-app/app/src/main/java -name "*.java" ! -name "MainActivity.java")
+          TESTS=$(find speedlock-app/app/src/test/java -name "*.java")
+          javac -d speedlock-app/build/classes $SOURCES $TESTS
+          java -cp speedlock-app/build/classes io.speedlock.app.SpeedLockTestRunner
+
+      - name: Set up Android SDK
+        uses: android-actions/setup-android@v3
+
+      - name: Cache Gradle Packages
+        uses: gradle/actions/setup-gradle@v4
+
+      - name: Ensure gradlew Executable Permission
+        run: chmod +x speedlock-app/gradlew
+
+      - name: Configure Keystore Signing (if secrets present)
+        id: signing
+        run: |
+          if [ -n "${{ secrets.ANDROID_KEYSTORE_BASE64 }}" ]; then
+            echo "Signing secret found. Decoding keystore..."
+            echo "${{ secrets.ANDROID_KEYSTORE_BASE64 }}" | base64 --decode > speedlock-app/keystore.jks
+            echo "KEYSTORE_FILE=keystore.jks" >> $GITHUB_ENV
+            echo "KEYSTORE_PASSWORD=${{ secrets.KEYSTORE_PASSWORD }}" >> $GITHUB_ENV
+            echo "KEY_ALIAS=${{ secrets.KEY_ALIAS }}" >> $GITHUB_ENV
+            echo "KEY_PASSWORD=${{ secrets.KEY_PASSWORD }}" >> $GITHUB_ENV
+            echo "signed=true" >> $GITHUB_OUTPUT
+          else
+            echo "No signing secret configured. Proceeding with unsigned release build."
+            echo "signed=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Assemble Release APK
+        run: |
+          cd speedlock-app
+          ./gradlew assembleRelease --no-daemon --stacktrace
+
+      - name: Package & Name Release Artifact
+        run: |
+          OUTPUT_DIR="speedlock-app/app/build/outputs/apk/release"
+          TAG="${{ steps.release_version.outputs.tag }}"
+          TARGET_APK="SpeedLock-${TAG}-x6871.apk"
+          
+          if [ -f "$OUTPUT_DIR/app-release.apk" ]; then
+            cp "$OUTPUT_DIR/app-release.apk" "$OUTPUT_DIR/$TARGET_APK"
+          elif [ -f "$OUTPUT_DIR/app-release-unsigned.apk" ]; then
+            cp "$OUTPUT_DIR/app-release-unsigned.apk" "$OUTPUT_DIR/$TARGET_APK"
+          else
+            echo "::error::No release APK found in $OUTPUT_DIR"
+            exit 1
+          fi
+          
+          cd "$OUTPUT_DIR"
+          sha256sum "$TARGET_APK" > "$TARGET_APK.sha256"
+          echo "RELEASE_APK_PATH=$OUTPUT_DIR/$TARGET_APK" >> $GITHUB_ENV
+          echo "RELEASE_SHA_PATH=$OUTPUT_DIR/$TARGET_APK.sha256" >> $GITHUB_ENV
+          echo "RELEASE_SHA=$(cat "$TARGET_APK.sha256" | awk '{print $1}')" >> $GITHUB_ENV
+
+      - name: Generate Release Notes
+        id: notes
+        run: |
+          TAG="${{ steps.release_version.outputs.tag }}"
+          cat << 'EOF' > RELEASE_NOTES.md
+          ## Speed Lock Android Application — Release ${{ steps.release_version.outputs.tag }}
+          
+          ### Target Device Profile
+          - **Device**: Infinix GT 20 Pro (`X6871`)
+          - **Commercial SoC**: MediaTek Dimensity 8200 Ultimate (`MT6896`)
+          - **Silicon Platform / BSP**: `MT6895`
+          - **Stock Kernel**: `5.10.237-android12-9-00014-gf82f7360927e-ab14119954`
+          - **ABI**: `arm64-v8a` (64-bit only, Bionic libc)
+          - **Page Size**: `4096` bytes (4 KB)
+          
+          ### Verified Integration Status
+          - **DFRoot (CVE-2024-50302)**: Metadata compatible; prebuilt module CRC and symbol audit required.
+          - **GhostLock (CVE-2024-49854)**: Metadata compatible; futex subsystem prerequisites present.
+          - **DirtyInit**: Static audit only.
+          - **UniRoot**: Static audit only.
+          
+          ### Automated Testbench Verification
+          - **Python Integration Tests**: 30/30 PASSED
+          - **Java App Regression Tests**: 18/18 PASSED
+          - **Total Tests**: 48/48 (100% Success Rate)
+          
+          ### Package Verification
+          - **Artifact**: `SpeedLock-${{ steps.release_version.outputs.tag }}-x6871.apk`
+          - **SHA-256**: `${{ env.RELEASE_SHA }}`
+          EOF
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ steps.release_version.outputs.tag }}
+          name: Speed Lock ${{ steps.release_version.outputs.tag }} (Infinix GT 20 Pro X6871)
+          body_path: RELEASE_NOTES.md
+          draft: false
+          prerelease: false
+          files: |
+            ${{ env.RELEASE_APK_PATH }}
+            ${{ env.RELEASE_SHA_PATH }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

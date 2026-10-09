@@ -1,0 +1,21 @@
+<resources>
+    <string name="app_name">Speed Lock</string>
+    <string name="title_device_info">Device Info</string>
+    <string name="title_backend_catalogue">Backend Catalogue</string>
+    <string name="title_compatibility">X6871 Compatibility</string>
+    <string name="title_diagnostic_logs">Diagnostic Logs</string>
+
+    <string name="label_detected_model">Model:</string>
+    <string name="label_commercial_soc">Commercial SoC:</string>
+    <string name="label_bsp_platform">BSP Platform:</string>
+    <string name="label_kernel_release">Kernel Release:</string>
+    <string name="label_vermagic">Vermagic:</string>
+    <string name="label_security_patch">Security Patch:</string>
+    <string name="label_actionable_status">Actionable Status:</string>
+
+    <string name="btn_refresh">Refresh Detection</string>
+    <string name="btn_export_report">Export Diagnostic Report</string>
+    <string name="btn_view_logs">View Live Logs</string>
+
+    <string name="integrity_disclaimer">Notice: Metadata compatibility indicates kernel and configuration alignment. Live root support is strictly unconfirmed without physical hardware validation.</string>
+</resources>

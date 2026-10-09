@@ -1,0 +1,48 @@
+# Git ignore for Speed Lock repository
+
+# Upstream research archives & cloned repos
+repositories/
+
+# Firmware images, archives, and large binaries
+*.img
+*.bin
+*.iso
+*.tar
+*.gz
+*.zip
+*.lz4
+*.cpio
+Image*
+
+# Local build artifacts and caches
+build/
+**/build/
+.gradle/
+**/.gradle/
+*.class
+__pycache__/
+**/__pycache__/
+*.pyc
+*.pyo
+captures/
+.externalNativeBuild/
+.cxx/
+
+# Android Studio & IDE
+.idea/
+*.iml
+.navigation/
+local.properties
+
+# Keystores and private signing credentials
+*.jks
+*.keystore
+*.pem
+*.pk8
+signing.properties
+
+# Logs and system files
+logs/
+*.log
+.DS_Store
+Thumbs.db

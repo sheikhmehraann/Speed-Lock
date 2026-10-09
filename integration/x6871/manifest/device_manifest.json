@@ -1,0 +1,71 @@
+{
+  "$schema": "./manifest_schema.json",
+  "device_info": {
+    "brand": "Infinix",
+    "model": "X6871",
+    "marketing_name": "Infinix GT 20 Pro",
+    "soc": "MediaTek Dimensity 8200 Ultimate (MT6896)",
+    "board": "x6871_h962",
+    "regional_variant": "X6871-OP (Global)",
+    "userspace_os": "Android 14 (XOS 14)"
+  },
+  "kernel_info": {
+    "architecture": "arm64",
+    "page_size_bytes": 4096,
+    "va_bits": 39,
+    "release_string": "5.10.237-android12-9-00014-gf82f7360927e-ab14119954",
+    "vermagic": "5.10.237-android12-9-00014-gf82f7360927e-ab14119954 SMP preempt mod_unload modversions aarch64",
+    "kmi_generation": "android12-9",
+    "gki_version": "GKI 2.0 (Google ACK android12-5.10)",
+    "compiler": "Android clang version 12.0.5 (c935d99d7cf2016289302412d708641d52d2f7ee)",
+    "compile_timestamp": "Wed Sep 17 09:13:52 UTC 2025"
+  },
+  "security_profile": {
+    "avb_security_patch": "2026-07-01",
+    "avb_rollback_index": 2,
+    "module_sig_enforced": false,
+    "cfi_enabled": true,
+    "scs_enabled": true,
+    "kaslr_enabled": true,
+    "selinux_mode": "enforcing"
+  },
+  "required_symbols_crc": {
+    "module_layout": "0x7c24b32d",
+    "register_kprobe": "0xc502eb6d",
+    "unregister_kprobe": "0x18b23dc5",
+    "printk": "0xc5850110",
+    "__stack_chk_fail": "0x98a9d10c",
+    "__stack_chk_guard": "0x8f678b07",
+    "memset": "0xdcb764ad"
+  },
+  "backend_capabilities": {
+    "dfroot": {
+      "backend_name": "DFRoot (CVE-2026-43284)",
+      "state": "METADATA_COMPATIBLE",
+      "prerequisites_met": true,
+      "reasons": [
+        "Kernel configuration satisfies all DirtyFrag preconditions (CONFIG_XFRM=y, CONFIG_INET_ESP=y, CONFIG_KPROBES=y, CONFIG_MODULES=y)",
+        "Module cryptographic signing is disabled (# CONFIG_MODULE_SIG is not set)",
+        "Candidate library /vendor/lib64/libbinderdebug.so is present on stock firmware",
+        "Executable /vendor/bin/insmod is present as a valid symlink to toybox_vendor",
+        "Partition table contains matching super, misc, and standard A/B entries"
+      ],
+      "critical_blockers": [
+        "Prebuilt dfroot-android12-5.10.ko carries mismatched vermagic '5.10.252-dirty' and empty __versions section; causes -ENOEXEC rejection under strict CONFIG_MODVERSIONS=y without a matched rebuild"
+      ]
+    },
+    "ghostlock": {
+      "backend_name": "GhostLock / IonStack (CVE-2026-43499)",
+      "state": "METADATA_COMPATIBLE",
+      "prerequisites_met": true,
+      "reasons": [
+        "Futex PI subsystem is compiled into kernel (CONFIG_FUTEX=y)",
+        "AVB patch date 2026-07-01 predates upstream fix",
+        "Architecture matches 39-bit VA and 4KB page size"
+      ],
+      "critical_blockers": [
+        "Missing compiled target profile header (target.h / ionstack.conf) containing exact task_struct, cred, and call_usermodehelper_exec_work offsets for build ab14119954"
+      ]
+    }
+  }
+}
