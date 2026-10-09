@@ -50,7 +50,7 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
 
-      - name: Compile and Run Java Unit Testbench (26 Tests)
+      - name: Compile and Run Java Unit Testbench (30 Tests)
         run: |
           echo "Running Java testbench verification..."
           mkdir -p speedlock-app/build/classes
@@ -161,8 +161,8 @@ jobs:
           
           ### Automated Testbench Verification
           - **Python Integration Tests**: 31/31 PASSED
-          - **Java App Regression Tests**: 26/26 PASSED
-          - **Total Tests**: 57/57 (100% Success Rate)
+          - **Java App Regression Tests**: 30/30 PASSED
+          - **Total Tests**: 61/61 (100% Success Rate)
           
           ### Downloadable Artifacts & Signatures
           - **Installable Package (Debug-Signed)**: \`${{ env.DEBUG_FILE }}\`

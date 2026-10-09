@@ -38,7 +38,7 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
 
-      - name: Compile and Run Java Regression Testbench (26 Tests)
+      - name: Compile and Run Java Regression Testbench (30 Tests)
         run: |
           echo "===================================================="
           echo " Compiling and Running Java Unit Testbench          "

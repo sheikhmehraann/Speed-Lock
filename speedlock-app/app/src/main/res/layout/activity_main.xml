@@ -974,6 +974,11 @@
                     android:text="ALL"
                     android:textSize="11sp"
                     android:layout_marginEnd="4dp"
+                    android:minWidth="0dp"
+                    android:paddingStart="4dp"
+                    android:paddingEnd="4dp"
+                    android:insetTop="0dp"
+                    android:insetBottom="0dp"
                     app:cornerRadius="6dp" />
 
                 <com.google.android.material.button.MaterialButton
@@ -984,6 +989,11 @@
                     android:text="INFO"
                     android:textSize="11sp"
                     android:layout_marginEnd="4dp"
+                    android:minWidth="0dp"
+                    android:paddingStart="4dp"
+                    android:paddingEnd="4dp"
+                    android:insetTop="0dp"
+                    android:insetBottom="0dp"
                     app:cornerRadius="6dp"
                     style="@style/Widget.Material3.Button.TonalButton" />
 
@@ -995,6 +1005,11 @@
                     android:text="WARN"
                     android:textSize="11sp"
                     android:layout_marginEnd="4dp"
+                    android:minWidth="0dp"
+                    android:paddingStart="4dp"
+                    android:paddingEnd="4dp"
+                    android:insetTop="0dp"
+                    android:insetBottom="0dp"
                     app:cornerRadius="6dp"
                     style="@style/Widget.Material3.Button.TonalButton" />
 
@@ -1005,6 +1020,11 @@
                     android:layout_weight="1"
                     android:text="ERROR"
                     android:textSize="11sp"
+                    android:minWidth="0dp"
+                    android:paddingStart="4dp"
+                    android:paddingEnd="4dp"
+                    android:insetTop="0dp"
+                    android:insetBottom="0dp"
                     app:cornerRadius="6dp"
                     style="@style/Widget.Material3.Button.TonalButton" />
             </LinearLayout>
@@ -1189,7 +1209,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Speed Lock v1.0.2 (Build 2)"
+                        android:text="Speed Lock v1.0.3 (Build 3)"
                         android:textColor="@color/text_primary"
                         android:textSize="14sp"
                         android:textStyle="bold"

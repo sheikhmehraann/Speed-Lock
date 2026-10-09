@@ -32,7 +32,7 @@ public class DiagnosticLogsView {
         String queryLower = (searchQuery != null) ? searchQuery.toLowerCase() : null;
 
         for (DiagnosticLogger.LogEntry entry : entries) {
-            if (filterLevel != null && entry.level != filterLevel) {
+            if (filterLevel != null && entry.level.ordinal() < filterLevel.ordinal()) {
                 continue;
             }
             if (queryLower != null && !entry.message.toLowerCase().contains(queryLower) && !entry.tag.toLowerCase().contains(queryLower)) {
